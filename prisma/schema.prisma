@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["typedSql"]
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model items {
+  id          BigInt   @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  label       String?
+  description String?
+  comment     String?
+  parent      BigInt?
+  items       items?   @relation("itemsToitems", fields: [parent], references: [id])
+  other_items items[]  @relation("itemsToitems")
+  titles      titles[]
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model titles {
+  id          BigInt   @id @default(autoincrement())
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  item        BigInt?
+  description String?
+  items       items?   @relation(fields: [item], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  values      values[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model values {
+  date                        DateTime @default(dbgenerated("'2026-01-01'::date")) @db.Date
+  is_flexible                 Boolean?
+  function                    BigInt?
+  title                       BigInt
+  created_at                  DateTime @default(now()) @db.Timestamptz(6)
+  should                      BigInt?
+  is_expense                  Boolean
+  expense_revenue_type        String?
+  expense_revenue_description String?
+  group                       String?
+  group_description           String?
+  chapter                     BigInt?
+  chapter_description         String?
+  plan                        BigInt?
+  plan_description            String?
+  titles                      titles   @relation(fields: [title], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([date, title])
+}
