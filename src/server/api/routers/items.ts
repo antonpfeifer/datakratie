@@ -30,7 +30,7 @@ export const itemsRouter = createTRPCRouter({
         }),
 
     childrenWithValues: publicProcedure
-        .input(z.object({ item: z.number().int().nonnegative() }))
+        .input(z.object({ item: z.number().int().nonnegative(), date: z.date() }))
         .query(async ({ ctx, input }) => {
             const data = await ctx.db.$queryRaw(Prisma.sql`
                 WITH RECURSIVE item_tree AS (
@@ -44,6 +44,7 @@ export const itemsRouter = createTRPCRouter({
                 FROM items c
                 JOIN item_tree t ON c.parent = t.node_id
                 ),
+
                 sum_by_child AS (
                 SELECT
                     t.direct_child_id,
@@ -51,10 +52,12 @@ export const itemsRouter = createTRPCRouter({
                 FROM item_tree t
                 LEFT JOIN titles ti ON ti.item = t.node_id
                 LEFT JOIN "values" v ON v.title = ti.id
+                WHERE v.date = ${input.date}
                 GROUP BY t.direct_child_id
                 )
+
                 SELECT
-                dc.id AS direct_child_id, dc.label,
+                dc.id AS direct_child_id, dc.label, dc.description,
                 COALESCE(s.recursive_should_sum, 0) AS recursive_should_sum
                 FROM items dc
                 LEFT JOIN sum_by_child s ON s.direct_child_id = dc.id

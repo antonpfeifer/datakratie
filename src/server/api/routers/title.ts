@@ -10,13 +10,30 @@ export const titlesRouter = createTRPCRouter({
 
     const data = await ctx.db.titles.findMany({
       where: {
-        description: normalizedQuery.length === 0
-          ? { not: null }
-          : { contains: normalizedQuery, mode: "insensitive" },
+        OR: normalizedQuery.length === 0
+          ? [{ description: { not: null } }]
+          : [
+              { description: { contains: normalizedQuery, mode: "insensitive" } },
+              {
+                items: {
+                  is: {
+                    OR: [
+                      { label: { contains: normalizedQuery, mode: "insensitive" } },
+                      { description: { contains: normalizedQuery, mode: "insensitive" } },
+                    ],
+                  },
+                },
+              },
+            ],
       },
       select: {
         id: true,
         description: true,
+        items: {
+          select: {
+            label: true,
+          },
+        },
       },
       orderBy: {
         description: "asc",
@@ -31,6 +48,7 @@ export const titlesRouter = createTRPCRouter({
       .map((row) => ({
         id: Number(row.id),
         description: row.description as string,
+        itemLabel: row.items?.label ?? null,
       }))
       .filter((row) => {
         const key = row.description.trim().toLocaleLowerCase("de-DE");

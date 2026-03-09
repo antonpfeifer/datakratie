@@ -11,8 +11,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card"
-import { Button } from "./ui/button"
+} from "../../../components/ui/card"
+import { Button } from "../../../components/ui/button"
 import {
   ChartContainer,
   ChartLegend,
@@ -20,8 +20,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./ui/chart"
+} from "../../../components/ui/chart"
 import { api } from "~/utils/api"
+import type { ItemWithValue } from "~/server/api/routers/items"
 
 export const description = "A pie chart with a label list"
 
@@ -55,7 +56,7 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
 
     const currentParentLabel = currentParent.label ?? currentParentQuery.data?.label ?? `Item ${currentParentId}`;
 
-    const chartQuery = api.items.childrenWithValues.useQuery({item: currentParentId});
+    const chartQuery = api.items.childrenWithValues.useQuery({item: currentParentId, date: new Date("2026-01-01")});
     const rawData = chartQuery.data ?? [];
 
     const chartData = React.useMemo(
@@ -115,7 +116,24 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
             <ChartTooltip
               content={<ChartTooltipContent nameKey="label" hideLabel />}
             />
-            <Pie data={chartData} dataKey="value" nameKey="label">
+            <Pie data={chartData} dataKey="value"
+                          labelLine={false}
+              label={({ payload, ...props }) => {
+                return (
+                  <text
+                    cx={props.cx}
+                    cy={props.cy}
+                    x={props.x}
+                    y={props.y}
+                    textAnchor={props.textAnchor}
+                    dominantBaseline={props.dominantBaseline}
+                    fill="hsl(var(--foreground))"
+                  >
+                    {calculatePercentage(payload.id, rawData).toString()}%
+                  </text>
+                )
+              }}
+              nameKey="label">
               {chartData.map((entry) => (
                 <Cell
                   key={entry.id}
@@ -135,7 +153,7 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
               />
             </Pie>
             <ChartLegend
-              content={<ChartLegendContent nameKey="label" />}
+              content={<ChartLegendContent nameKey="colorKey" />}
               className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
             />
           </PieChart>
@@ -143,4 +161,17 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
       </CardContent>
     </Card>
   )
+}
+
+function calculatePercentage(id: number, data: ItemWithValue[]): Number{
+  const value = data.find((element) => element.id == id)?.value;
+  if(value == undefined) {
+    return 0;
+  }
+  var sum: number = 0;
+  data.forEach((item) => sum += item.value);
+  if (sum == 0) {
+    return 0;
+  }
+  return Math.round((value/sum) * 1000)/10;
 }

@@ -1,17 +1,17 @@
 import React from "react"
 import * as RechartsPrimitive from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "./ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../../../components/ui/chart"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 
 
-function BudgetChart({
+export const HistoryChart = ({
     chartData,
     tooltipLabel
 }: React.ComponentProps<"div"> & {
     chartData: Array<Object>
     tooltipLabel: string
-}) {
+}) => {
     const chartConfig = {
         views: {
             label: tooltipLabel,
@@ -75,5 +75,3 @@ function BudgetChart({
         </ChartContainer>
     )
 }
-
-export { BudgetChart }

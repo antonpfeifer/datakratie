@@ -10,13 +10,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card"
+} from "~/components/ui/card"
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
   type ChartConfig,
-} from "./ui/chart"
+} from "~/components/ui/chart"
 
 export const description = "An interactive line chart"
 

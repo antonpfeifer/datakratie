@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Button } from "./ui/button"
+import { Button } from "../../../components/ui/button"
 import {
   Command,
   CommandDialog,
@@ -11,7 +11,7 @@ import {
   CommandItem,
   CommandList,
     CommandSeparator,
-} from "./ui/command"
+} from "../../../components/ui/command"
 import { api } from "~/utils/api"
 import { useState } from "~/hooks/useState"
 
@@ -31,12 +31,12 @@ export function TitlesSearch() {
         </Button>
         <CommandDialog open={open} onOpenChange={setOpen}>
             <Command>
-            <CommandInput placeholder="Posten suchen..." value={query} onValueChange={setQuery} />
+                        <CommandInput placeholder="Titel oder Posten suchen..." value={query} onValueChange={setQuery} />
             <CommandList>
                 <CommandEmpty>
                   {searchQuery.isLoading ? "Lade Vorschläge..." : "Keine Vorschläge gefunden."}
                 </CommandEmpty>
-                <CommandGroup heading="Navigation">
+                                <CommandGroup heading="Ergebnisse">
                     {searchQuery.data?.map((title) =>
                         <CommandItem
                           key={title.id}
@@ -47,7 +47,14 @@ export function TitlesSearch() {
                             setQuery("")
                           }}
                         >
-                    <span>{title.description}</span>
+                                        <div className="flex min-w-0 flex-col">
+                                            <span className="truncate">{title.description}</span>
+                                            {title.itemLabel ? (
+                                                <span className="text-muted-foreground truncate text-xs">
+                                                    Posten: {title.itemLabel}
+                                                </span>
+                                            ) : null}
+                                        </div>
                 </CommandItem>)}
                 </CommandGroup>
                 <CommandSeparator />
