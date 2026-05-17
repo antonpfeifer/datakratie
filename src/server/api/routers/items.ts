@@ -1,11 +1,38 @@
 import { Prisma } from "generated/prisma";
 import { z } from "zod";
+import type { Item } from "~/hooks/useState";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export type ItemWithValue = {id: number, value: number, label: string};
 
 export const itemsRouter = createTRPCRouter({
+    search: publicProcedure
+        .input(z.object({query: z.string()}))
+    .query(async ({ ctx, input }) => {
+        const normalizedQuery = input.query.trim();
+        const data = await ctx.db.items.findMany({
+            where: normalizedQuery.length === 0
+                ? { description: { not: null } }
+                : {
+                    OR: [
+                        { label: { contains: normalizedQuery, mode: "insensitive" } },
+                        { description: { contains: normalizedQuery, mode: "insensitive" } },
+                    ],
+                },
+            select: {
+                id: true,
+                description: true,
+                label: true
+            },
+            orderBy: {
+                description: "asc",
+            },
+            take: 100,
+        });
+
+        return data;
+    }),
     byId: publicProcedure
         .input(z.object({ item: z.number().int().nonnegative() }))
         .query(async ({ ctx, input }) => {

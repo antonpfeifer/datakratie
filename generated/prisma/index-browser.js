@@ -130,11 +130,24 @@ exports.Prisma.ItemsScalarFieldEnum = {
   parent: 'parent'
 };
 
+exports.Prisma.ModifiersScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  function: 'function',
+  is_recursive: 'is_recursive',
+  start_index: 'start_index',
+  title: 'title',
+  description: 'description',
+  modifier_item: 'modifier_item'
+};
+
 exports.Prisma.TitlesScalarFieldEnum = {
   id: 'id',
   created_at: 'created_at',
   item: 'item',
-  description: 'description'
+  description: 'description',
+  chapter: 'chapter',
+  plan: 'plan'
 };
 
 exports.Prisma.ValuesScalarFieldEnum = {
@@ -173,6 +186,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   items: 'items',
+  modifiers: 'modifiers',
   titles: 'titles',
   values: 'values'
 };

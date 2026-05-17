@@ -28,7 +28,7 @@ export const valuesRouter = createTRPCRouter({
             WITH RECURSIVE item_tree AS (
             SELECT i.id AS node_id, i.id AS direct_child_id
             FROM items i
-            WHERE i.parent = 14050103 OR i.id = 14050103
+            WHERE i.parent = ${input.item} OR i.id = ${input.item}
 
             UNION ALL
 
@@ -52,6 +52,10 @@ export const valuesRouter = createTRPCRouter({
             COALESCE(s.recursive_should_sum, 0) AS recursive_should_sum
             FROM sum_by_child s
             ORDER BY s.date;`) as Array<{ date: bigint; recursive_should_sum: bigint | null }>;
+
+            return result.map((row) => {
+                return { date: new Date(Number(row.date)), value: Number(row.recursive_should_sum ?? 0n) };
+            });
 
 
         

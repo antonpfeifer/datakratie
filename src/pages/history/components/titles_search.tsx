@@ -13,16 +13,16 @@ import {
     CommandSeparator,
 } from "../../../components/ui/command"
 import { api } from "~/utils/api"
-import { useState } from "~/hooks/useState"
+import { useState} from "~/hooks/useState"
 
 export function TitlesSearch() {
     const [open, setOpen] = React.useState(false);
     const [query, setQuery] = React.useState("");
-        const searchQuery = api.titles.search.useQuery(
+        const searchQuery = api.items.search.useQuery(
             { query },
             { enabled: open }
         );
-    const addTitle = useState((controller) => controller.addTitle);
+    const setItem = useState((controller) => controller.setItem);
 
     return (
         <div className="flex flex-col gap-4">
@@ -37,21 +37,21 @@ export function TitlesSearch() {
                   {searchQuery.isLoading ? "Lade Vorschläge..." : "Keine Vorschläge gefunden."}
                 </CommandEmpty>
                                 <CommandGroup heading="Ergebnisse">
-                    {searchQuery.data?.map((title) =>
+                    {searchQuery.data?.map((item) =>
                         <CommandItem
-                          key={title.id}
-                          value={title.description}
+                          key={item.id}
+                          value={item.description ?? ""}
                           onSelect={() => {
-                            addTitle(title)
+                            setItem({ ...item, id: Number(item.id) })
                             setOpen(false)
                             setQuery("")
                           }}
                         >
                                         <div className="flex min-w-0 flex-col">
-                                            <span className="truncate">{title.description}</span>
-                                            {title.itemLabel ? (
+                                            <span className="truncate">{item.label}</span>
+                                            {item.label ? (
                                                 <span className="text-muted-foreground truncate text-xs">
-                                                    Posten: {title.itemLabel}
+                                                    {item.description}
                                                 </span>
                                             ) : null}
                                         </div>
