@@ -20,7 +20,14 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type items = $Result.DefaultSelection<Prisma.$itemsPayload>
 /**
+ * Model modifiers
+ * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type modifiers = $Result.DefaultSelection<Prisma.$modifiersPayload>
+/**
  * Model titles
+ * This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type titles = $Result.DefaultSelection<Prisma.$titlesPayload>
@@ -168,6 +175,16 @@ export class PrismaClient<
     * ```
     */
   get items(): Prisma.itemsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.modifiers`: Exposes CRUD operations for the **modifiers** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Modifiers
+    * const modifiers = await prisma.modifiers.findMany()
+    * ```
+    */
+  get modifiers(): Prisma.modifiersDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.titles`: Exposes CRUD operations for the **titles** model.
@@ -630,6 +647,7 @@ export namespace Prisma {
 
   export const ModelName: {
     items: 'items',
+    modifiers: 'modifiers',
     titles: 'titles',
     values: 'values'
   };
@@ -650,7 +668,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "items" | "titles" | "values"
+      modelProps: "items" | "modifiers" | "titles" | "values"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -725,6 +743,80 @@ export namespace Prisma {
           count: {
             args: Prisma.itemsCountArgs<ExtArgs>
             result: $Utils.Optional<ItemsCountAggregateOutputType> | number
+          }
+        }
+      }
+      modifiers: {
+        payload: Prisma.$modifiersPayload<ExtArgs>
+        fields: Prisma.modifiersFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.modifiersFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.modifiersFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          findFirst: {
+            args: Prisma.modifiersFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.modifiersFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          findMany: {
+            args: Prisma.modifiersFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>[]
+          }
+          create: {
+            args: Prisma.modifiersCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          createMany: {
+            args: Prisma.modifiersCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.modifiersCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>[]
+          }
+          delete: {
+            args: Prisma.modifiersDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          update: {
+            args: Prisma.modifiersUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          deleteMany: {
+            args: Prisma.modifiersDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.modifiersUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.modifiersUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>[]
+          }
+          upsert: {
+            args: Prisma.modifiersUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$modifiersPayload>
+          }
+          aggregate: {
+            args: Prisma.ModifiersAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateModifiers>
+          }
+          groupBy: {
+            args: Prisma.modifiersGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ModifiersGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.modifiersCountArgs<ExtArgs>
+            result: $Utils.Optional<ModifiersCountAggregateOutputType> | number
           }
         }
       }
@@ -977,6 +1069,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     items?: itemsOmit
+    modifiers?: modifiersOmit
     titles?: titlesOmit
     values?: valuesOmit
   }
@@ -1060,11 +1153,13 @@ export namespace Prisma {
 
   export type ItemsCountOutputType = {
     other_items: number
+    modifiers: number
     titles: number
   }
 
   export type ItemsCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     other_items?: boolean | ItemsCountOutputTypeCountOther_itemsArgs
+    modifiers?: boolean | ItemsCountOutputTypeCountModifiersArgs
     titles?: boolean | ItemsCountOutputTypeCountTitlesArgs
   }
 
@@ -1084,6 +1179,13 @@ export namespace Prisma {
    */
   export type ItemsCountOutputTypeCountOther_itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: itemsWhereInput
+  }
+
+  /**
+   * ItemsCountOutputType without action
+   */
+  export type ItemsCountOutputTypeCountModifiersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: modifiersWhereInput
   }
 
   /**
@@ -1147,26 +1249,26 @@ export namespace Prisma {
   }
 
   export type ItemsSumAggregateOutputType = {
-    id: bigint | null
-    parent: bigint | null
+    id: number | null
+    parent: number | null
   }
 
   export type ItemsMinAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     created_at: Date | null
     label: string | null
     description: string | null
     comment: string | null
-    parent: bigint | null
+    parent: number | null
   }
 
   export type ItemsMaxAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     created_at: Date | null
     label: string | null
     description: string | null
     comment: string | null
-    parent: bigint | null
+    parent: number | null
   }
 
   export type ItemsCountAggregateOutputType = {
@@ -1305,12 +1407,12 @@ export namespace Prisma {
   }
 
   export type ItemsGroupByOutputType = {
-    id: bigint
+    id: number
     created_at: Date
     label: string | null
     description: string | null
     comment: string | null
-    parent: bigint | null
+    parent: number | null
     _count: ItemsCountAggregateOutputType | null
     _avg: ItemsAvgAggregateOutputType | null
     _sum: ItemsSumAggregateOutputType | null
@@ -1341,6 +1443,7 @@ export namespace Prisma {
     parent?: boolean
     items?: boolean | items$itemsArgs<ExtArgs>
     other_items?: boolean | items$other_itemsArgs<ExtArgs>
+    modifiers?: boolean | items$modifiersArgs<ExtArgs>
     titles?: boolean | items$titlesArgs<ExtArgs>
     _count?: boolean | ItemsCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["items"]>
@@ -1378,6 +1481,7 @@ export namespace Prisma {
   export type itemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | items$itemsArgs<ExtArgs>
     other_items?: boolean | items$other_itemsArgs<ExtArgs>
+    modifiers?: boolean | items$modifiersArgs<ExtArgs>
     titles?: boolean | items$titlesArgs<ExtArgs>
     _count?: boolean | ItemsCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1393,15 +1497,16 @@ export namespace Prisma {
     objects: {
       items: Prisma.$itemsPayload<ExtArgs> | null
       other_items: Prisma.$itemsPayload<ExtArgs>[]
+      modifiers: Prisma.$modifiersPayload<ExtArgs>[]
       titles: Prisma.$titlesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: bigint
+      id: number
       created_at: Date
       label: string | null
       description: string | null
       comment: string | null
-      parent: bigint | null
+      parent: number | null
     }, ExtArgs["result"]["items"]>
     composites: {}
   }
@@ -1798,6 +1903,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     items<T extends items$itemsArgs<ExtArgs> = {}>(args?: Subset<T, items$itemsArgs<ExtArgs>>): Prisma__itemsClient<$Result.GetResult<Prisma.$itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     other_items<T extends items$other_itemsArgs<ExtArgs> = {}>(args?: Subset<T, items$other_itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$itemsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    modifiers<T extends items$modifiersArgs<ExtArgs> = {}>(args?: Subset<T, items$modifiersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     titles<T extends items$titlesArgs<ExtArgs> = {}>(args?: Subset<T, items$titlesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$titlesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1828,12 +1934,12 @@ export namespace Prisma {
    * Fields of the items model
    */
   interface itemsFieldRefs {
-    readonly id: FieldRef<"items", 'BigInt'>
+    readonly id: FieldRef<"items", 'Int'>
     readonly created_at: FieldRef<"items", 'DateTime'>
     readonly label: FieldRef<"items", 'String'>
     readonly description: FieldRef<"items", 'String'>
     readonly comment: FieldRef<"items", 'String'>
-    readonly parent: FieldRef<"items", 'BigInt'>
+    readonly parent: FieldRef<"items", 'Int'>
   }
     
 
@@ -2273,6 +2379,30 @@ export namespace Prisma {
   }
 
   /**
+   * items.modifiers
+   */
+  export type items$modifiersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    where?: modifiersWhereInput
+    orderBy?: modifiersOrderByWithRelationInput | modifiersOrderByWithRelationInput[]
+    cursor?: modifiersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ModifiersScalarFieldEnum | ModifiersScalarFieldEnum[]
+  }
+
+  /**
    * items.titles
    */
   export type items$titlesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2316,6 +2446,1145 @@ export namespace Prisma {
 
 
   /**
+   * Model modifiers
+   */
+
+  export type AggregateModifiers = {
+    _count: ModifiersCountAggregateOutputType | null
+    _avg: ModifiersAvgAggregateOutputType | null
+    _sum: ModifiersSumAggregateOutputType | null
+    _min: ModifiersMinAggregateOutputType | null
+    _max: ModifiersMaxAggregateOutputType | null
+  }
+
+  export type ModifiersAvgAggregateOutputType = {
+    id: number | null
+    start_index: number | null
+    modifier_item: number | null
+  }
+
+  export type ModifiersSumAggregateOutputType = {
+    id: number | null
+    start_index: number | null
+    modifier_item: number | null
+  }
+
+  export type ModifiersMinAggregateOutputType = {
+    id: number | null
+    created_at: Date | null
+    function: string | null
+    is_recursive: boolean | null
+    start_index: number | null
+    title: string | null
+    description: string | null
+    modifier_item: number | null
+  }
+
+  export type ModifiersMaxAggregateOutputType = {
+    id: number | null
+    created_at: Date | null
+    function: string | null
+    is_recursive: boolean | null
+    start_index: number | null
+    title: string | null
+    description: string | null
+    modifier_item: number | null
+  }
+
+  export type ModifiersCountAggregateOutputType = {
+    id: number
+    created_at: number
+    function: number
+    is_recursive: number
+    start_index: number
+    title: number
+    description: number
+    modifier_item: number
+    _all: number
+  }
+
+
+  export type ModifiersAvgAggregateInputType = {
+    id?: true
+    start_index?: true
+    modifier_item?: true
+  }
+
+  export type ModifiersSumAggregateInputType = {
+    id?: true
+    start_index?: true
+    modifier_item?: true
+  }
+
+  export type ModifiersMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    function?: true
+    is_recursive?: true
+    start_index?: true
+    title?: true
+    description?: true
+    modifier_item?: true
+  }
+
+  export type ModifiersMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    function?: true
+    is_recursive?: true
+    start_index?: true
+    title?: true
+    description?: true
+    modifier_item?: true
+  }
+
+  export type ModifiersCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    function?: true
+    is_recursive?: true
+    start_index?: true
+    title?: true
+    description?: true
+    modifier_item?: true
+    _all?: true
+  }
+
+  export type ModifiersAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which modifiers to aggregate.
+     */
+    where?: modifiersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of modifiers to fetch.
+     */
+    orderBy?: modifiersOrderByWithRelationInput | modifiersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: modifiersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` modifiers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` modifiers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned modifiers
+    **/
+    _count?: true | ModifiersCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ModifiersAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ModifiersSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ModifiersMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ModifiersMaxAggregateInputType
+  }
+
+  export type GetModifiersAggregateType<T extends ModifiersAggregateArgs> = {
+        [P in keyof T & keyof AggregateModifiers]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateModifiers[P]>
+      : GetScalarType<T[P], AggregateModifiers[P]>
+  }
+
+
+
+
+  export type modifiersGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: modifiersWhereInput
+    orderBy?: modifiersOrderByWithAggregationInput | modifiersOrderByWithAggregationInput[]
+    by: ModifiersScalarFieldEnum[] | ModifiersScalarFieldEnum
+    having?: modifiersScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ModifiersCountAggregateInputType | true
+    _avg?: ModifiersAvgAggregateInputType
+    _sum?: ModifiersSumAggregateInputType
+    _min?: ModifiersMinAggregateInputType
+    _max?: ModifiersMaxAggregateInputType
+  }
+
+  export type ModifiersGroupByOutputType = {
+    id: number
+    created_at: Date
+    function: string
+    is_recursive: boolean
+    start_index: number
+    title: string
+    description: string
+    modifier_item: number
+    _count: ModifiersCountAggregateOutputType | null
+    _avg: ModifiersAvgAggregateOutputType | null
+    _sum: ModifiersSumAggregateOutputType | null
+    _min: ModifiersMinAggregateOutputType | null
+    _max: ModifiersMaxAggregateOutputType | null
+  }
+
+  type GetModifiersGroupByPayload<T extends modifiersGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ModifiersGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ModifiersGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ModifiersGroupByOutputType[P]>
+            : GetScalarType<T[P], ModifiersGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type modifiersSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    function?: boolean
+    is_recursive?: boolean
+    start_index?: boolean
+    title?: boolean
+    description?: boolean
+    modifier_item?: boolean
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modifiers"]>
+
+  export type modifiersSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    function?: boolean
+    is_recursive?: boolean
+    start_index?: boolean
+    title?: boolean
+    description?: boolean
+    modifier_item?: boolean
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modifiers"]>
+
+  export type modifiersSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    function?: boolean
+    is_recursive?: boolean
+    start_index?: boolean
+    title?: boolean
+    description?: boolean
+    modifier_item?: boolean
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["modifiers"]>
+
+  export type modifiersSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    function?: boolean
+    is_recursive?: boolean
+    start_index?: boolean
+    title?: boolean
+    description?: boolean
+    modifier_item?: boolean
+  }
+
+  export type modifiersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "function" | "is_recursive" | "start_index" | "title" | "description" | "modifier_item", ExtArgs["result"]["modifiers"]>
+  export type modifiersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }
+  export type modifiersIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }
+  export type modifiersIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | itemsDefaultArgs<ExtArgs>
+  }
+
+  export type $modifiersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "modifiers"
+    objects: {
+      items: Prisma.$itemsPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      created_at: Date
+      function: string
+      is_recursive: boolean
+      start_index: number
+      title: string
+      description: string
+      modifier_item: number
+    }, ExtArgs["result"]["modifiers"]>
+    composites: {}
+  }
+
+  type modifiersGetPayload<S extends boolean | null | undefined | modifiersDefaultArgs> = $Result.GetResult<Prisma.$modifiersPayload, S>
+
+  type modifiersCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<modifiersFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ModifiersCountAggregateInputType | true
+    }
+
+  export interface modifiersDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['modifiers'], meta: { name: 'modifiers' } }
+    /**
+     * Find zero or one Modifiers that matches the filter.
+     * @param {modifiersFindUniqueArgs} args - Arguments to find a Modifiers
+     * @example
+     * // Get one Modifiers
+     * const modifiers = await prisma.modifiers.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends modifiersFindUniqueArgs>(args: SelectSubset<T, modifiersFindUniqueArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Modifiers that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {modifiersFindUniqueOrThrowArgs} args - Arguments to find a Modifiers
+     * @example
+     * // Get one Modifiers
+     * const modifiers = await prisma.modifiers.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends modifiersFindUniqueOrThrowArgs>(args: SelectSubset<T, modifiersFindUniqueOrThrowArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Modifiers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersFindFirstArgs} args - Arguments to find a Modifiers
+     * @example
+     * // Get one Modifiers
+     * const modifiers = await prisma.modifiers.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends modifiersFindFirstArgs>(args?: SelectSubset<T, modifiersFindFirstArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Modifiers that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersFindFirstOrThrowArgs} args - Arguments to find a Modifiers
+     * @example
+     * // Get one Modifiers
+     * const modifiers = await prisma.modifiers.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends modifiersFindFirstOrThrowArgs>(args?: SelectSubset<T, modifiersFindFirstOrThrowArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Modifiers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Modifiers
+     * const modifiers = await prisma.modifiers.findMany()
+     * 
+     * // Get first 10 Modifiers
+     * const modifiers = await prisma.modifiers.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const modifiersWithIdOnly = await prisma.modifiers.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends modifiersFindManyArgs>(args?: SelectSubset<T, modifiersFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Modifiers.
+     * @param {modifiersCreateArgs} args - Arguments to create a Modifiers.
+     * @example
+     * // Create one Modifiers
+     * const Modifiers = await prisma.modifiers.create({
+     *   data: {
+     *     // ... data to create a Modifiers
+     *   }
+     * })
+     * 
+     */
+    create<T extends modifiersCreateArgs>(args: SelectSubset<T, modifiersCreateArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Modifiers.
+     * @param {modifiersCreateManyArgs} args - Arguments to create many Modifiers.
+     * @example
+     * // Create many Modifiers
+     * const modifiers = await prisma.modifiers.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends modifiersCreateManyArgs>(args?: SelectSubset<T, modifiersCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Modifiers and returns the data saved in the database.
+     * @param {modifiersCreateManyAndReturnArgs} args - Arguments to create many Modifiers.
+     * @example
+     * // Create many Modifiers
+     * const modifiers = await prisma.modifiers.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Modifiers and only return the `id`
+     * const modifiersWithIdOnly = await prisma.modifiers.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends modifiersCreateManyAndReturnArgs>(args?: SelectSubset<T, modifiersCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Modifiers.
+     * @param {modifiersDeleteArgs} args - Arguments to delete one Modifiers.
+     * @example
+     * // Delete one Modifiers
+     * const Modifiers = await prisma.modifiers.delete({
+     *   where: {
+     *     // ... filter to delete one Modifiers
+     *   }
+     * })
+     * 
+     */
+    delete<T extends modifiersDeleteArgs>(args: SelectSubset<T, modifiersDeleteArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Modifiers.
+     * @param {modifiersUpdateArgs} args - Arguments to update one Modifiers.
+     * @example
+     * // Update one Modifiers
+     * const modifiers = await prisma.modifiers.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends modifiersUpdateArgs>(args: SelectSubset<T, modifiersUpdateArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Modifiers.
+     * @param {modifiersDeleteManyArgs} args - Arguments to filter Modifiers to delete.
+     * @example
+     * // Delete a few Modifiers
+     * const { count } = await prisma.modifiers.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends modifiersDeleteManyArgs>(args?: SelectSubset<T, modifiersDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Modifiers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Modifiers
+     * const modifiers = await prisma.modifiers.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends modifiersUpdateManyArgs>(args: SelectSubset<T, modifiersUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Modifiers and returns the data updated in the database.
+     * @param {modifiersUpdateManyAndReturnArgs} args - Arguments to update many Modifiers.
+     * @example
+     * // Update many Modifiers
+     * const modifiers = await prisma.modifiers.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Modifiers and only return the `id`
+     * const modifiersWithIdOnly = await prisma.modifiers.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends modifiersUpdateManyAndReturnArgs>(args: SelectSubset<T, modifiersUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Modifiers.
+     * @param {modifiersUpsertArgs} args - Arguments to update or create a Modifiers.
+     * @example
+     * // Update or create a Modifiers
+     * const modifiers = await prisma.modifiers.upsert({
+     *   create: {
+     *     // ... data to create a Modifiers
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Modifiers we want to update
+     *   }
+     * })
+     */
+    upsert<T extends modifiersUpsertArgs>(args: SelectSubset<T, modifiersUpsertArgs<ExtArgs>>): Prisma__modifiersClient<$Result.GetResult<Prisma.$modifiersPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Modifiers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersCountArgs} args - Arguments to filter Modifiers to count.
+     * @example
+     * // Count the number of Modifiers
+     * const count = await prisma.modifiers.count({
+     *   where: {
+     *     // ... the filter for the Modifiers we want to count
+     *   }
+     * })
+    **/
+    count<T extends modifiersCountArgs>(
+      args?: Subset<T, modifiersCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ModifiersCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Modifiers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ModifiersAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ModifiersAggregateArgs>(args: Subset<T, ModifiersAggregateArgs>): Prisma.PrismaPromise<GetModifiersAggregateType<T>>
+
+    /**
+     * Group by Modifiers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {modifiersGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends modifiersGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: modifiersGroupByArgs['orderBy'] }
+        : { orderBy?: modifiersGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, modifiersGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetModifiersGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the modifiers model
+   */
+  readonly fields: modifiersFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for modifiers.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__modifiersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    items<T extends itemsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, itemsDefaultArgs<ExtArgs>>): Prisma__itemsClient<$Result.GetResult<Prisma.$itemsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the modifiers model
+   */
+  interface modifiersFieldRefs {
+    readonly id: FieldRef<"modifiers", 'Int'>
+    readonly created_at: FieldRef<"modifiers", 'DateTime'>
+    readonly function: FieldRef<"modifiers", 'String'>
+    readonly is_recursive: FieldRef<"modifiers", 'Boolean'>
+    readonly start_index: FieldRef<"modifiers", 'Int'>
+    readonly title: FieldRef<"modifiers", 'String'>
+    readonly description: FieldRef<"modifiers", 'String'>
+    readonly modifier_item: FieldRef<"modifiers", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * modifiers findUnique
+   */
+  export type modifiersFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter, which modifiers to fetch.
+     */
+    where: modifiersWhereUniqueInput
+  }
+
+  /**
+   * modifiers findUniqueOrThrow
+   */
+  export type modifiersFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter, which modifiers to fetch.
+     */
+    where: modifiersWhereUniqueInput
+  }
+
+  /**
+   * modifiers findFirst
+   */
+  export type modifiersFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter, which modifiers to fetch.
+     */
+    where?: modifiersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of modifiers to fetch.
+     */
+    orderBy?: modifiersOrderByWithRelationInput | modifiersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for modifiers.
+     */
+    cursor?: modifiersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` modifiers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` modifiers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of modifiers.
+     */
+    distinct?: ModifiersScalarFieldEnum | ModifiersScalarFieldEnum[]
+  }
+
+  /**
+   * modifiers findFirstOrThrow
+   */
+  export type modifiersFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter, which modifiers to fetch.
+     */
+    where?: modifiersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of modifiers to fetch.
+     */
+    orderBy?: modifiersOrderByWithRelationInput | modifiersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for modifiers.
+     */
+    cursor?: modifiersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` modifiers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` modifiers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of modifiers.
+     */
+    distinct?: ModifiersScalarFieldEnum | ModifiersScalarFieldEnum[]
+  }
+
+  /**
+   * modifiers findMany
+   */
+  export type modifiersFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter, which modifiers to fetch.
+     */
+    where?: modifiersWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of modifiers to fetch.
+     */
+    orderBy?: modifiersOrderByWithRelationInput | modifiersOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing modifiers.
+     */
+    cursor?: modifiersWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` modifiers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` modifiers.
+     */
+    skip?: number
+    distinct?: ModifiersScalarFieldEnum | ModifiersScalarFieldEnum[]
+  }
+
+  /**
+   * modifiers create
+   */
+  export type modifiersCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * The data needed to create a modifiers.
+     */
+    data: XOR<modifiersCreateInput, modifiersUncheckedCreateInput>
+  }
+
+  /**
+   * modifiers createMany
+   */
+  export type modifiersCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many modifiers.
+     */
+    data: modifiersCreateManyInput | modifiersCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * modifiers createManyAndReturn
+   */
+  export type modifiersCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * The data used to create many modifiers.
+     */
+    data: modifiersCreateManyInput | modifiersCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * modifiers update
+   */
+  export type modifiersUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * The data needed to update a modifiers.
+     */
+    data: XOR<modifiersUpdateInput, modifiersUncheckedUpdateInput>
+    /**
+     * Choose, which modifiers to update.
+     */
+    where: modifiersWhereUniqueInput
+  }
+
+  /**
+   * modifiers updateMany
+   */
+  export type modifiersUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update modifiers.
+     */
+    data: XOR<modifiersUpdateManyMutationInput, modifiersUncheckedUpdateManyInput>
+    /**
+     * Filter which modifiers to update
+     */
+    where?: modifiersWhereInput
+    /**
+     * Limit how many modifiers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * modifiers updateManyAndReturn
+   */
+  export type modifiersUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * The data used to update modifiers.
+     */
+    data: XOR<modifiersUpdateManyMutationInput, modifiersUncheckedUpdateManyInput>
+    /**
+     * Filter which modifiers to update
+     */
+    where?: modifiersWhereInput
+    /**
+     * Limit how many modifiers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * modifiers upsert
+   */
+  export type modifiersUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * The filter to search for the modifiers to update in case it exists.
+     */
+    where: modifiersWhereUniqueInput
+    /**
+     * In case the modifiers found by the `where` argument doesn't exist, create a new modifiers with this data.
+     */
+    create: XOR<modifiersCreateInput, modifiersUncheckedCreateInput>
+    /**
+     * In case the modifiers was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<modifiersUpdateInput, modifiersUncheckedUpdateInput>
+  }
+
+  /**
+   * modifiers delete
+   */
+  export type modifiersDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+    /**
+     * Filter which modifiers to delete.
+     */
+    where: modifiersWhereUniqueInput
+  }
+
+  /**
+   * modifiers deleteMany
+   */
+  export type modifiersDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which modifiers to delete
+     */
+    where?: modifiersWhereInput
+    /**
+     * Limit how many modifiers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * modifiers without action
+   */
+  export type modifiersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the modifiers
+     */
+    select?: modifiersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the modifiers
+     */
+    omit?: modifiersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: modifiersInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model titles
    */
 
@@ -2330,25 +3599,33 @@ export namespace Prisma {
   export type TitlesAvgAggregateOutputType = {
     id: number | null
     item: number | null
+    chapter: number | null
+    plan: number | null
   }
 
   export type TitlesSumAggregateOutputType = {
-    id: bigint | null
-    item: bigint | null
+    id: number | null
+    item: number | null
+    chapter: bigint | null
+    plan: bigint | null
   }
 
   export type TitlesMinAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     created_at: Date | null
-    item: bigint | null
+    item: number | null
     description: string | null
+    chapter: bigint | null
+    plan: bigint | null
   }
 
   export type TitlesMaxAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     created_at: Date | null
-    item: bigint | null
+    item: number | null
     description: string | null
+    chapter: bigint | null
+    plan: bigint | null
   }
 
   export type TitlesCountAggregateOutputType = {
@@ -2356,6 +3633,8 @@ export namespace Prisma {
     created_at: number
     item: number
     description: number
+    chapter: number
+    plan: number
     _all: number
   }
 
@@ -2363,11 +3642,15 @@ export namespace Prisma {
   export type TitlesAvgAggregateInputType = {
     id?: true
     item?: true
+    chapter?: true
+    plan?: true
   }
 
   export type TitlesSumAggregateInputType = {
     id?: true
     item?: true
+    chapter?: true
+    plan?: true
   }
 
   export type TitlesMinAggregateInputType = {
@@ -2375,6 +3658,8 @@ export namespace Prisma {
     created_at?: true
     item?: true
     description?: true
+    chapter?: true
+    plan?: true
   }
 
   export type TitlesMaxAggregateInputType = {
@@ -2382,6 +3667,8 @@ export namespace Prisma {
     created_at?: true
     item?: true
     description?: true
+    chapter?: true
+    plan?: true
   }
 
   export type TitlesCountAggregateInputType = {
@@ -2389,6 +3676,8 @@ export namespace Prisma {
     created_at?: true
     item?: true
     description?: true
+    chapter?: true
+    plan?: true
     _all?: true
   }
 
@@ -2479,10 +3768,12 @@ export namespace Prisma {
   }
 
   export type TitlesGroupByOutputType = {
-    id: bigint
+    id: number
     created_at: Date
-    item: bigint | null
+    item: number | null
     description: string | null
+    chapter: bigint | null
+    plan: bigint | null
     _count: TitlesCountAggregateOutputType | null
     _avg: TitlesAvgAggregateOutputType | null
     _sum: TitlesSumAggregateOutputType | null
@@ -2509,6 +3800,8 @@ export namespace Prisma {
     created_at?: boolean
     item?: boolean
     description?: boolean
+    chapter?: boolean
+    plan?: boolean
     items?: boolean | titles$itemsArgs<ExtArgs>
     values?: boolean | titles$valuesArgs<ExtArgs>
     _count?: boolean | TitlesCountOutputTypeDefaultArgs<ExtArgs>
@@ -2519,6 +3812,8 @@ export namespace Prisma {
     created_at?: boolean
     item?: boolean
     description?: boolean
+    chapter?: boolean
+    plan?: boolean
     items?: boolean | titles$itemsArgs<ExtArgs>
   }, ExtArgs["result"]["titles"]>
 
@@ -2527,6 +3822,8 @@ export namespace Prisma {
     created_at?: boolean
     item?: boolean
     description?: boolean
+    chapter?: boolean
+    plan?: boolean
     items?: boolean | titles$itemsArgs<ExtArgs>
   }, ExtArgs["result"]["titles"]>
 
@@ -2535,9 +3832,11 @@ export namespace Prisma {
     created_at?: boolean
     item?: boolean
     description?: boolean
+    chapter?: boolean
+    plan?: boolean
   }
 
-  export type titlesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "item" | "description", ExtArgs["result"]["titles"]>
+  export type titlesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "item" | "description" | "chapter" | "plan", ExtArgs["result"]["titles"]>
   export type titlesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | titles$itemsArgs<ExtArgs>
     values?: boolean | titles$valuesArgs<ExtArgs>
@@ -2557,10 +3856,12 @@ export namespace Prisma {
       values: Prisma.$valuesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: bigint
+      id: number
       created_at: Date
-      item: bigint | null
+      item: number | null
       description: string | null
+      chapter: bigint | null
+      plan: bigint | null
     }, ExtArgs["result"]["titles"]>
     composites: {}
   }
@@ -2986,10 +4287,12 @@ export namespace Prisma {
    * Fields of the titles model
    */
   interface titlesFieldRefs {
-    readonly id: FieldRef<"titles", 'BigInt'>
+    readonly id: FieldRef<"titles", 'Int'>
     readonly created_at: FieldRef<"titles", 'DateTime'>
-    readonly item: FieldRef<"titles", 'BigInt'>
+    readonly item: FieldRef<"titles", 'Int'>
     readonly description: FieldRef<"titles", 'String'>
+    readonly chapter: FieldRef<"titles", 'BigInt'>
+    readonly plan: FieldRef<"titles", 'BigInt'>
   }
     
 
@@ -3469,7 +4772,7 @@ export namespace Prisma {
 
   export type ValuesSumAggregateOutputType = {
     function: bigint | null
-    title: bigint | null
+    title: number | null
     should: bigint | null
     chapter: bigint | null
     plan: bigint | null
@@ -3479,7 +4782,7 @@ export namespace Prisma {
     date: Date | null
     is_flexible: boolean | null
     function: bigint | null
-    title: bigint | null
+    title: number | null
     created_at: Date | null
     should: bigint | null
     is_expense: boolean | null
@@ -3497,7 +4800,7 @@ export namespace Prisma {
     date: Date | null
     is_flexible: boolean | null
     function: bigint | null
-    title: bigint | null
+    title: number | null
     created_at: Date | null
     should: bigint | null
     is_expense: boolean | null
@@ -3692,7 +4995,7 @@ export namespace Prisma {
     date: Date
     is_flexible: boolean | null
     function: bigint | null
-    title: bigint
+    title: number
     created_at: Date
     should: bigint | null
     is_expense: boolean
@@ -3820,7 +5123,7 @@ export namespace Prisma {
       date: Date
       is_flexible: boolean | null
       function: bigint | null
-      title: bigint
+      title: number
       created_at: Date
       should: bigint | null
       is_expense: boolean
@@ -4259,7 +5562,7 @@ export namespace Prisma {
     readonly date: FieldRef<"values", 'DateTime'>
     readonly is_flexible: FieldRef<"values", 'Boolean'>
     readonly function: FieldRef<"values", 'BigInt'>
-    readonly title: FieldRef<"values", 'BigInt'>
+    readonly title: FieldRef<"values", 'Int'>
     readonly created_at: FieldRef<"values", 'DateTime'>
     readonly should: FieldRef<"values", 'BigInt'>
     readonly is_expense: FieldRef<"values", 'Boolean'>
@@ -4711,11 +6014,27 @@ export namespace Prisma {
   export type ItemsScalarFieldEnum = (typeof ItemsScalarFieldEnum)[keyof typeof ItemsScalarFieldEnum]
 
 
+  export const ModifiersScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    function: 'function',
+    is_recursive: 'is_recursive',
+    start_index: 'start_index',
+    title: 'title',
+    description: 'description',
+    modifier_item: 'modifier_item'
+  };
+
+  export type ModifiersScalarFieldEnum = (typeof ModifiersScalarFieldEnum)[keyof typeof ModifiersScalarFieldEnum]
+
+
   export const TitlesScalarFieldEnum: {
     id: 'id',
     created_at: 'created_at',
     item: 'item',
-    description: 'description'
+    description: 'description',
+    chapter: 'chapter',
+    plan: 'plan'
   };
 
   export type TitlesScalarFieldEnum = (typeof TitlesScalarFieldEnum)[keyof typeof TitlesScalarFieldEnum]
@@ -4772,16 +6091,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'BigInt'
+   * Reference to a field of type 'Int'
    */
-  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'BigInt[]'
+   * Reference to a field of type 'Int[]'
    */
-  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -4821,16 +6140,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'BigInt'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type BigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt'>
     
 
 
   /**
-   * Reference to a field of type 'Int[]'
+   * Reference to a field of type 'BigInt[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+  export type ListBigIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BigInt[]'>
     
 
 
@@ -4855,14 +6174,15 @@ export namespace Prisma {
     AND?: itemsWhereInput | itemsWhereInput[]
     OR?: itemsWhereInput[]
     NOT?: itemsWhereInput | itemsWhereInput[]
-    id?: BigIntFilter<"items"> | bigint | number
+    id?: IntFilter<"items"> | number
     created_at?: DateTimeFilter<"items"> | Date | string
     label?: StringNullableFilter<"items"> | string | null
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
-    parent?: BigIntNullableFilter<"items"> | bigint | number | null
+    parent?: IntNullableFilter<"items"> | number | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     other_items?: ItemsListRelationFilter
+    modifiers?: ModifiersListRelationFilter
     titles?: TitlesListRelationFilter
   }
 
@@ -4875,11 +6195,12 @@ export namespace Prisma {
     parent?: SortOrderInput | SortOrder
     items?: itemsOrderByWithRelationInput
     other_items?: itemsOrderByRelationAggregateInput
+    modifiers?: modifiersOrderByRelationAggregateInput
     titles?: titlesOrderByRelationAggregateInput
   }
 
   export type itemsWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
+    id?: number
     AND?: itemsWhereInput | itemsWhereInput[]
     OR?: itemsWhereInput[]
     NOT?: itemsWhereInput | itemsWhereInput[]
@@ -4887,9 +6208,10 @@ export namespace Prisma {
     label?: StringNullableFilter<"items"> | string | null
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
-    parent?: BigIntNullableFilter<"items"> | bigint | number | null
+    parent?: IntNullableFilter<"items"> | number | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     other_items?: ItemsListRelationFilter
+    modifiers?: ModifiersListRelationFilter
     titles?: TitlesListRelationFilter
   }, "id">
 
@@ -4911,22 +6233,96 @@ export namespace Prisma {
     AND?: itemsScalarWhereWithAggregatesInput | itemsScalarWhereWithAggregatesInput[]
     OR?: itemsScalarWhereWithAggregatesInput[]
     NOT?: itemsScalarWhereWithAggregatesInput | itemsScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"items"> | bigint | number
+    id?: IntWithAggregatesFilter<"items"> | number
     created_at?: DateTimeWithAggregatesFilter<"items"> | Date | string
     label?: StringNullableWithAggregatesFilter<"items"> | string | null
     description?: StringNullableWithAggregatesFilter<"items"> | string | null
     comment?: StringNullableWithAggregatesFilter<"items"> | string | null
-    parent?: BigIntNullableWithAggregatesFilter<"items"> | bigint | number | null
+    parent?: IntNullableWithAggregatesFilter<"items"> | number | null
+  }
+
+  export type modifiersWhereInput = {
+    AND?: modifiersWhereInput | modifiersWhereInput[]
+    OR?: modifiersWhereInput[]
+    NOT?: modifiersWhereInput | modifiersWhereInput[]
+    id?: IntFilter<"modifiers"> | number
+    created_at?: DateTimeFilter<"modifiers"> | Date | string
+    function?: StringFilter<"modifiers"> | string
+    is_recursive?: BoolFilter<"modifiers"> | boolean
+    start_index?: IntFilter<"modifiers"> | number
+    title?: StringFilter<"modifiers"> | string
+    description?: StringFilter<"modifiers"> | string
+    modifier_item?: IntFilter<"modifiers"> | number
+    items?: XOR<ItemsScalarRelationFilter, itemsWhereInput>
+  }
+
+  export type modifiersOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    function?: SortOrder
+    is_recursive?: SortOrder
+    start_index?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    modifier_item?: SortOrder
+    items?: itemsOrderByWithRelationInput
+  }
+
+  export type modifiersWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: modifiersWhereInput | modifiersWhereInput[]
+    OR?: modifiersWhereInput[]
+    NOT?: modifiersWhereInput | modifiersWhereInput[]
+    created_at?: DateTimeFilter<"modifiers"> | Date | string
+    function?: StringFilter<"modifiers"> | string
+    is_recursive?: BoolFilter<"modifiers"> | boolean
+    start_index?: IntFilter<"modifiers"> | number
+    title?: StringFilter<"modifiers"> | string
+    description?: StringFilter<"modifiers"> | string
+    modifier_item?: IntFilter<"modifiers"> | number
+    items?: XOR<ItemsScalarRelationFilter, itemsWhereInput>
+  }, "id">
+
+  export type modifiersOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    function?: SortOrder
+    is_recursive?: SortOrder
+    start_index?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    modifier_item?: SortOrder
+    _count?: modifiersCountOrderByAggregateInput
+    _avg?: modifiersAvgOrderByAggregateInput
+    _max?: modifiersMaxOrderByAggregateInput
+    _min?: modifiersMinOrderByAggregateInput
+    _sum?: modifiersSumOrderByAggregateInput
+  }
+
+  export type modifiersScalarWhereWithAggregatesInput = {
+    AND?: modifiersScalarWhereWithAggregatesInput | modifiersScalarWhereWithAggregatesInput[]
+    OR?: modifiersScalarWhereWithAggregatesInput[]
+    NOT?: modifiersScalarWhereWithAggregatesInput | modifiersScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"modifiers"> | number
+    created_at?: DateTimeWithAggregatesFilter<"modifiers"> | Date | string
+    function?: StringWithAggregatesFilter<"modifiers"> | string
+    is_recursive?: BoolWithAggregatesFilter<"modifiers"> | boolean
+    start_index?: IntWithAggregatesFilter<"modifiers"> | number
+    title?: StringWithAggregatesFilter<"modifiers"> | string
+    description?: StringWithAggregatesFilter<"modifiers"> | string
+    modifier_item?: IntWithAggregatesFilter<"modifiers"> | number
   }
 
   export type titlesWhereInput = {
     AND?: titlesWhereInput | titlesWhereInput[]
     OR?: titlesWhereInput[]
     NOT?: titlesWhereInput | titlesWhereInput[]
-    id?: BigIntFilter<"titles"> | bigint | number
+    id?: IntFilter<"titles"> | number
     created_at?: DateTimeFilter<"titles"> | Date | string
-    item?: BigIntNullableFilter<"titles"> | bigint | number | null
+    item?: IntNullableFilter<"titles"> | number | null
     description?: StringNullableFilter<"titles"> | string | null
+    chapter?: BigIntNullableFilter<"titles"> | bigint | number | null
+    plan?: BigIntNullableFilter<"titles"> | bigint | number | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     values?: ValuesListRelationFilter
   }
@@ -4936,18 +6332,22 @@ export namespace Prisma {
     created_at?: SortOrder
     item?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    chapter?: SortOrderInput | SortOrder
+    plan?: SortOrderInput | SortOrder
     items?: itemsOrderByWithRelationInput
     values?: valuesOrderByRelationAggregateInput
   }
 
   export type titlesWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
+    id?: number
     AND?: titlesWhereInput | titlesWhereInput[]
     OR?: titlesWhereInput[]
     NOT?: titlesWhereInput | titlesWhereInput[]
     created_at?: DateTimeFilter<"titles"> | Date | string
-    item?: BigIntNullableFilter<"titles"> | bigint | number | null
+    item?: IntNullableFilter<"titles"> | number | null
     description?: StringNullableFilter<"titles"> | string | null
+    chapter?: BigIntNullableFilter<"titles"> | bigint | number | null
+    plan?: BigIntNullableFilter<"titles"> | bigint | number | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     values?: ValuesListRelationFilter
   }, "id">
@@ -4957,6 +6357,8 @@ export namespace Prisma {
     created_at?: SortOrder
     item?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
+    chapter?: SortOrderInput | SortOrder
+    plan?: SortOrderInput | SortOrder
     _count?: titlesCountOrderByAggregateInput
     _avg?: titlesAvgOrderByAggregateInput
     _max?: titlesMaxOrderByAggregateInput
@@ -4968,10 +6370,12 @@ export namespace Prisma {
     AND?: titlesScalarWhereWithAggregatesInput | titlesScalarWhereWithAggregatesInput[]
     OR?: titlesScalarWhereWithAggregatesInput[]
     NOT?: titlesScalarWhereWithAggregatesInput | titlesScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"titles"> | bigint | number
+    id?: IntWithAggregatesFilter<"titles"> | number
     created_at?: DateTimeWithAggregatesFilter<"titles"> | Date | string
-    item?: BigIntNullableWithAggregatesFilter<"titles"> | bigint | number | null
+    item?: IntNullableWithAggregatesFilter<"titles"> | number | null
     description?: StringNullableWithAggregatesFilter<"titles"> | string | null
+    chapter?: BigIntNullableWithAggregatesFilter<"titles"> | bigint | number | null
+    plan?: BigIntNullableWithAggregatesFilter<"titles"> | bigint | number | null
   }
 
   export type valuesWhereInput = {
@@ -4981,7 +6385,7 @@ export namespace Prisma {
     date?: DateTimeFilter<"values"> | Date | string
     is_flexible?: BoolNullableFilter<"values"> | boolean | null
     function?: BigIntNullableFilter<"values"> | bigint | number | null
-    title?: BigIntFilter<"values"> | bigint | number
+    title?: IntFilter<"values"> | number
     created_at?: DateTimeFilter<"values"> | Date | string
     should?: BigIntNullableFilter<"values"> | bigint | number | null
     is_expense?: BoolFilter<"values"> | boolean
@@ -5023,7 +6427,7 @@ export namespace Prisma {
     date?: DateTimeFilter<"values"> | Date | string
     is_flexible?: BoolNullableFilter<"values"> | boolean | null
     function?: BigIntNullableFilter<"values"> | bigint | number | null
-    title?: BigIntFilter<"values"> | bigint | number
+    title?: IntFilter<"values"> | number
     created_at?: DateTimeFilter<"values"> | Date | string
     should?: BigIntNullableFilter<"values"> | bigint | number | null
     is_expense?: BoolFilter<"values"> | boolean
@@ -5068,7 +6472,7 @@ export namespace Prisma {
     date?: DateTimeWithAggregatesFilter<"values"> | Date | string
     is_flexible?: BoolNullableWithAggregatesFilter<"values"> | boolean | null
     function?: BigIntNullableWithAggregatesFilter<"values"> | bigint | number | null
-    title?: BigIntWithAggregatesFilter<"values"> | bigint | number
+    title?: IntWithAggregatesFilter<"values"> | number
     created_at?: DateTimeWithAggregatesFilter<"values"> | Date | string
     should?: BigIntNullableWithAggregatesFilter<"values"> | bigint | number | null
     is_expense?: BoolWithAggregatesFilter<"values"> | boolean
@@ -5083,60 +6487,61 @@ export namespace Prisma {
   }
 
   export type itemsCreateInput = {
-    id?: bigint | number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     other_items?: itemsCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
   }
 
   export type itemsUncheckedCreateInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
-    parent?: bigint | number | null
+    parent?: number | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
   }
 
   export type itemsUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     other_items?: itemsUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
-    parent?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    parent?: NullableIntFieldUpdateOperationsInput | number | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsCreateManyInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
-    parent?: bigint | number | null
+    parent?: number | null
   }
 
   export type itemsUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
@@ -5144,64 +6549,148 @@ export namespace Prisma {
   }
 
   export type itemsUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
-    parent?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    parent?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type modifiersCreateInput = {
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+    items: itemsCreateNestedOneWithoutModifiersInput
+  }
+
+  export type modifiersUncheckedCreateInput = {
+    id?: number
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+    modifier_item: number
+  }
+
+  export type modifiersUpdateInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    items?: itemsUpdateOneRequiredWithoutModifiersNestedInput
+  }
+
+  export type modifiersUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    modifier_item?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type modifiersCreateManyInput = {
+    id?: number
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+    modifier_item: number
+  }
+
+  export type modifiersUpdateManyMutationInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type modifiersUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    modifier_item?: IntFieldUpdateOperationsInput | number
   }
 
   export type titlesCreateInput = {
-    id?: bigint | number
     created_at?: Date | string
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
     items?: itemsCreateNestedOneWithoutTitlesInput
     values?: valuesCreateNestedManyWithoutTitlesInput
   }
 
   export type titlesUncheckedCreateInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
-    item?: bigint | number | null
+    item?: number | null
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
     values?: valuesUncheckedCreateNestedManyWithoutTitlesInput
   }
 
   export type titlesUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     items?: itemsUpdateOneWithoutTitlesNestedInput
     values?: valuesUpdateManyWithoutTitlesNestedInput
   }
 
   export type titlesUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    item?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    item?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     values?: valuesUncheckedUpdateManyWithoutTitlesNestedInput
   }
 
   export type titlesCreateManyInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
-    item?: bigint | number | null
+    item?: number | null
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
   }
 
   export type titlesUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type titlesUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    item?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    item?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type valuesCreateInput = {
@@ -5226,7 +6715,7 @@ export namespace Prisma {
     date?: Date | string
     is_flexible?: boolean | null
     function?: bigint | number | null
-    title: bigint | number
+    title: number
     created_at?: Date | string
     should?: bigint | number | null
     is_expense: boolean
@@ -5262,7 +6751,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     is_flexible?: NullableBoolFieldUpdateOperationsInput | boolean | null
     function?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    title?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     should?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     is_expense?: BoolFieldUpdateOperationsInput | boolean
@@ -5280,7 +6769,7 @@ export namespace Prisma {
     date?: Date | string
     is_flexible?: boolean | null
     function?: bigint | number | null
-    title: bigint | number
+    title: number
     created_at?: Date | string
     should?: bigint | number | null
     is_expense: boolean
@@ -5315,7 +6804,7 @@ export namespace Prisma {
     date?: DateTimeFieldUpdateOperationsInput | Date | string
     is_flexible?: NullableBoolFieldUpdateOperationsInput | boolean | null
     function?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    title?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     should?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     is_expense?: BoolFieldUpdateOperationsInput | boolean
@@ -5329,15 +6818,15 @@ export namespace Prisma {
     plan_description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type BigIntFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -5366,15 +6855,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BigIntNullableFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type ItemsNullableScalarRelationFilter = {
@@ -5386,6 +6875,12 @@ export namespace Prisma {
     every?: itemsWhereInput
     some?: itemsWhereInput
     none?: itemsWhereInput
+  }
+
+  export type ModifiersListRelationFilter = {
+    every?: modifiersWhereInput
+    some?: modifiersWhereInput
+    none?: modifiersWhereInput
   }
 
   export type TitlesListRelationFilter = {
@@ -5400,6 +6895,10 @@ export namespace Prisma {
   }
 
   export type itemsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type modifiersOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5444,20 +6943,20 @@ export namespace Prisma {
     parent?: SortOrder
   }
 
-  export type BigIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
     _count?: NestedIntFilter<$PrismaModel>
     _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedBigIntFilter<$PrismaModel>
-    _min?: NestedBigIntFilter<$PrismaModel>
-    _max?: NestedBigIntFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5492,7 +6991,119 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type ItemsScalarRelationFilter = {
+    is?: itemsWhereInput
+    isNot?: itemsWhereInput
+  }
+
+  export type modifiersCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    function?: SortOrder
+    is_recursive?: SortOrder
+    start_index?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    modifier_item?: SortOrder
+  }
+
+  export type modifiersAvgOrderByAggregateInput = {
+    id?: SortOrder
+    start_index?: SortOrder
+    modifier_item?: SortOrder
+  }
+
+  export type modifiersMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    function?: SortOrder
+    is_recursive?: SortOrder
+    start_index?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    modifier_item?: SortOrder
+  }
+
+  export type modifiersMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    function?: SortOrder
+    is_recursive?: SortOrder
+    start_index?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    modifier_item?: SortOrder
+  }
+
+  export type modifiersSumOrderByAggregateInput = {
+    id?: SortOrder
+    start_index?: SortOrder
+    modifier_item?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type BigIntNullableFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
     notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
@@ -5500,12 +7111,7 @@ export namespace Prisma {
     lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedBigIntNullableFilter<$PrismaModel>
-    _min?: NestedBigIntNullableFilter<$PrismaModel>
-    _max?: NestedBigIntNullableFilter<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
   }
 
   export type ValuesListRelationFilter = {
@@ -5523,11 +7129,15 @@ export namespace Prisma {
     created_at?: SortOrder
     item?: SortOrder
     description?: SortOrder
+    chapter?: SortOrder
+    plan?: SortOrder
   }
 
   export type titlesAvgOrderByAggregateInput = {
     id?: SortOrder
     item?: SortOrder
+    chapter?: SortOrder
+    plan?: SortOrder
   }
 
   export type titlesMaxOrderByAggregateInput = {
@@ -5535,6 +7145,8 @@ export namespace Prisma {
     created_at?: SortOrder
     item?: SortOrder
     description?: SortOrder
+    chapter?: SortOrder
+    plan?: SortOrder
   }
 
   export type titlesMinOrderByAggregateInput = {
@@ -5542,21 +7154,36 @@ export namespace Prisma {
     created_at?: SortOrder
     item?: SortOrder
     description?: SortOrder
+    chapter?: SortOrder
+    plan?: SortOrder
   }
 
   export type titlesSumOrderByAggregateInput = {
     id?: SortOrder
     item?: SortOrder
+    chapter?: SortOrder
+    plan?: SortOrder
+  }
+
+  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
   }
 
   export type BoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type TitlesScalarRelationFilter = {
@@ -5566,7 +7193,7 @@ export namespace Prisma {
 
   export type valuesDateTitleCompoundUniqueInput = {
     date: Date | string
-    title: bigint | number
+    title: number
   }
 
   export type valuesCountOrderByAggregateInput = {
@@ -5647,14 +7274,6 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type itemsCreateNestedOneWithoutOther_itemsInput = {
     create?: XOR<itemsCreateWithoutOther_itemsInput, itemsUncheckedCreateWithoutOther_itemsInput>
     connectOrCreate?: itemsCreateOrConnectWithoutOther_itemsInput
@@ -5666,6 +7285,13 @@ export namespace Prisma {
     connectOrCreate?: itemsCreateOrConnectWithoutItemsInput | itemsCreateOrConnectWithoutItemsInput[]
     createMany?: itemsCreateManyItemsInputEnvelope
     connect?: itemsWhereUniqueInput | itemsWhereUniqueInput[]
+  }
+
+  export type modifiersCreateNestedManyWithoutItemsInput = {
+    create?: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput> | modifiersCreateWithoutItemsInput[] | modifiersUncheckedCreateWithoutItemsInput[]
+    connectOrCreate?: modifiersCreateOrConnectWithoutItemsInput | modifiersCreateOrConnectWithoutItemsInput[]
+    createMany?: modifiersCreateManyItemsInputEnvelope
+    connect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
   }
 
   export type titlesCreateNestedManyWithoutItemsInput = {
@@ -5682,19 +7308,18 @@ export namespace Prisma {
     connect?: itemsWhereUniqueInput | itemsWhereUniqueInput[]
   }
 
+  export type modifiersUncheckedCreateNestedManyWithoutItemsInput = {
+    create?: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput> | modifiersCreateWithoutItemsInput[] | modifiersUncheckedCreateWithoutItemsInput[]
+    connectOrCreate?: modifiersCreateOrConnectWithoutItemsInput | modifiersCreateOrConnectWithoutItemsInput[]
+    createMany?: modifiersCreateManyItemsInputEnvelope
+    connect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+  }
+
   export type titlesUncheckedCreateNestedManyWithoutItemsInput = {
     create?: XOR<titlesCreateWithoutItemsInput, titlesUncheckedCreateWithoutItemsInput> | titlesCreateWithoutItemsInput[] | titlesUncheckedCreateWithoutItemsInput[]
     connectOrCreate?: titlesCreateOrConnectWithoutItemsInput | titlesCreateOrConnectWithoutItemsInput[]
     createMany?: titlesCreateManyItemsInputEnvelope
     connect?: titlesWhereUniqueInput | titlesWhereUniqueInput[]
-  }
-
-  export type BigIntFieldUpdateOperationsInput = {
-    set?: bigint | number
-    increment?: bigint | number
-    decrement?: bigint | number
-    multiply?: bigint | number
-    divide?: bigint | number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -5729,6 +7354,20 @@ export namespace Prisma {
     deleteMany?: itemsScalarWhereInput | itemsScalarWhereInput[]
   }
 
+  export type modifiersUpdateManyWithoutItemsNestedInput = {
+    create?: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput> | modifiersCreateWithoutItemsInput[] | modifiersUncheckedCreateWithoutItemsInput[]
+    connectOrCreate?: modifiersCreateOrConnectWithoutItemsInput | modifiersCreateOrConnectWithoutItemsInput[]
+    upsert?: modifiersUpsertWithWhereUniqueWithoutItemsInput | modifiersUpsertWithWhereUniqueWithoutItemsInput[]
+    createMany?: modifiersCreateManyItemsInputEnvelope
+    set?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    disconnect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    delete?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    connect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    update?: modifiersUpdateWithWhereUniqueWithoutItemsInput | modifiersUpdateWithWhereUniqueWithoutItemsInput[]
+    updateMany?: modifiersUpdateManyWithWhereWithoutItemsInput | modifiersUpdateManyWithWhereWithoutItemsInput[]
+    deleteMany?: modifiersScalarWhereInput | modifiersScalarWhereInput[]
+  }
+
   export type titlesUpdateManyWithoutItemsNestedInput = {
     create?: XOR<titlesCreateWithoutItemsInput, titlesUncheckedCreateWithoutItemsInput> | titlesCreateWithoutItemsInput[] | titlesUncheckedCreateWithoutItemsInput[]
     connectOrCreate?: titlesCreateOrConnectWithoutItemsInput | titlesCreateOrConnectWithoutItemsInput[]
@@ -5743,12 +7382,20 @@ export namespace Prisma {
     deleteMany?: titlesScalarWhereInput | titlesScalarWhereInput[]
   }
 
-  export type NullableBigIntFieldUpdateOperationsInput = {
-    set?: bigint | number | null
-    increment?: bigint | number
-    decrement?: bigint | number
-    multiply?: bigint | number
-    divide?: bigint | number
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type itemsUncheckedUpdateManyWithoutItemsNestedInput = {
@@ -5765,6 +7412,20 @@ export namespace Prisma {
     deleteMany?: itemsScalarWhereInput | itemsScalarWhereInput[]
   }
 
+  export type modifiersUncheckedUpdateManyWithoutItemsNestedInput = {
+    create?: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput> | modifiersCreateWithoutItemsInput[] | modifiersUncheckedCreateWithoutItemsInput[]
+    connectOrCreate?: modifiersCreateOrConnectWithoutItemsInput | modifiersCreateOrConnectWithoutItemsInput[]
+    upsert?: modifiersUpsertWithWhereUniqueWithoutItemsInput | modifiersUpsertWithWhereUniqueWithoutItemsInput[]
+    createMany?: modifiersCreateManyItemsInputEnvelope
+    set?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    disconnect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    delete?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    connect?: modifiersWhereUniqueInput | modifiersWhereUniqueInput[]
+    update?: modifiersUpdateWithWhereUniqueWithoutItemsInput | modifiersUpdateWithWhereUniqueWithoutItemsInput[]
+    updateMany?: modifiersUpdateManyWithWhereWithoutItemsInput | modifiersUpdateManyWithWhereWithoutItemsInput[]
+    deleteMany?: modifiersScalarWhereInput | modifiersScalarWhereInput[]
+  }
+
   export type titlesUncheckedUpdateManyWithoutItemsNestedInput = {
     create?: XOR<titlesCreateWithoutItemsInput, titlesUncheckedCreateWithoutItemsInput> | titlesCreateWithoutItemsInput[] | titlesUncheckedCreateWithoutItemsInput[]
     connectOrCreate?: titlesCreateOrConnectWithoutItemsInput | titlesCreateOrConnectWithoutItemsInput[]
@@ -5777,6 +7438,28 @@ export namespace Prisma {
     update?: titlesUpdateWithWhereUniqueWithoutItemsInput | titlesUpdateWithWhereUniqueWithoutItemsInput[]
     updateMany?: titlesUpdateManyWithWhereWithoutItemsInput | titlesUpdateManyWithWhereWithoutItemsInput[]
     deleteMany?: titlesScalarWhereInput | titlesScalarWhereInput[]
+  }
+
+  export type itemsCreateNestedOneWithoutModifiersInput = {
+    create?: XOR<itemsCreateWithoutModifiersInput, itemsUncheckedCreateWithoutModifiersInput>
+    connectOrCreate?: itemsCreateOrConnectWithoutModifiersInput
+    connect?: itemsWhereUniqueInput
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type itemsUpdateOneRequiredWithoutModifiersNestedInput = {
+    create?: XOR<itemsCreateWithoutModifiersInput, itemsUncheckedCreateWithoutModifiersInput>
+    connectOrCreate?: itemsCreateOrConnectWithoutModifiersInput
+    upsert?: itemsUpsertWithoutModifiersInput
+    connect?: itemsWhereUniqueInput
+    update?: XOR<XOR<itemsUpdateToOneWithWhereWithoutModifiersInput, itemsUpdateWithoutModifiersInput>, itemsUncheckedUpdateWithoutModifiersInput>
   }
 
   export type itemsCreateNestedOneWithoutTitlesInput = {
@@ -5797,6 +7480,14 @@ export namespace Prisma {
     connectOrCreate?: valuesCreateOrConnectWithoutTitlesInput | valuesCreateOrConnectWithoutTitlesInput[]
     createMany?: valuesCreateManyTitlesInputEnvelope
     connect?: valuesWhereUniqueInput | valuesWhereUniqueInput[]
+  }
+
+  export type NullableBigIntFieldUpdateOperationsInput = {
+    set?: bigint | number | null
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
   }
 
   export type itemsUpdateOneWithoutTitlesNestedInput = {
@@ -5847,10 +7538,6 @@ export namespace Prisma {
     set?: boolean | null
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type titlesUpdateOneRequiredWithoutValuesNestedInput = {
     create?: XOR<titlesCreateWithoutValuesInput, titlesUncheckedCreateWithoutValuesInput>
     connectOrCreate?: titlesCreateOrConnectWithoutValuesInput
@@ -5859,15 +7546,15 @@ export namespace Prisma {
     update?: XOR<XOR<titlesUpdateToOneWithWhereWithoutValuesInput, titlesUpdateWithoutValuesInput>, titlesUncheckedUpdateWithoutValuesInput>
   }
 
-  export type NestedBigIntFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntFilter<$PrismaModel> | bigint | number
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -5895,34 +7582,18 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBigIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
-    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
-    not?: NestedBigIntWithAggregatesFilter<$PrismaModel> | bigint | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedBigIntFilter<$PrismaModel>
-    _min?: NestedBigIntFilter<$PrismaModel>
-    _max?: NestedBigIntFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -5930,7 +7601,12 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -5975,7 +7651,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -5983,7 +7659,78 @@ export namespace Prisma {
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
   }
 
   export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6002,25 +7749,9 @@ export namespace Prisma {
     _max?: NestedBigIntNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedBoolNullableFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
     not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6031,31 +7762,24 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type itemsCreateWithoutOther_itemsInput = {
-    id?: bigint | number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
+    modifiers?: modifiersCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
   }
 
   export type itemsUncheckedCreateWithoutOther_itemsInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
-    parent?: bigint | number | null
+    parent?: number | null
+    modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
   }
 
@@ -6065,22 +7789,23 @@ export namespace Prisma {
   }
 
   export type itemsCreateWithoutItemsInput = {
-    id?: bigint | number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
     other_items?: itemsCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
   }
 
   export type itemsUncheckedCreateWithoutItemsInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
   }
 
@@ -6094,17 +7819,49 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type modifiersCreateWithoutItemsInput = {
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+  }
+
+  export type modifiersUncheckedCreateWithoutItemsInput = {
+    id?: number
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+  }
+
+  export type modifiersCreateOrConnectWithoutItemsInput = {
+    where: modifiersWhereUniqueInput
+    create: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput>
+  }
+
+  export type modifiersCreateManyItemsInputEnvelope = {
+    data: modifiersCreateManyItemsInput | modifiersCreateManyItemsInput[]
+    skipDuplicates?: boolean
+  }
+
   export type titlesCreateWithoutItemsInput = {
-    id?: bigint | number
     created_at?: Date | string
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
     values?: valuesCreateNestedManyWithoutTitlesInput
   }
 
   export type titlesUncheckedCreateWithoutItemsInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
     values?: valuesUncheckedCreateNestedManyWithoutTitlesInput
   }
 
@@ -6130,22 +7887,23 @@ export namespace Prisma {
   }
 
   export type itemsUpdateWithoutOther_itemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
+    modifiers?: modifiersUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsUncheckedUpdateWithoutOther_itemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
-    parent?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    parent?: NullableIntFieldUpdateOperationsInput | number | null
+    modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
   }
 
@@ -6169,12 +7927,42 @@ export namespace Prisma {
     AND?: itemsScalarWhereInput | itemsScalarWhereInput[]
     OR?: itemsScalarWhereInput[]
     NOT?: itemsScalarWhereInput | itemsScalarWhereInput[]
-    id?: BigIntFilter<"items"> | bigint | number
+    id?: IntFilter<"items"> | number
     created_at?: DateTimeFilter<"items"> | Date | string
     label?: StringNullableFilter<"items"> | string | null
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
-    parent?: BigIntNullableFilter<"items"> | bigint | number | null
+    parent?: IntNullableFilter<"items"> | number | null
+  }
+
+  export type modifiersUpsertWithWhereUniqueWithoutItemsInput = {
+    where: modifiersWhereUniqueInput
+    update: XOR<modifiersUpdateWithoutItemsInput, modifiersUncheckedUpdateWithoutItemsInput>
+    create: XOR<modifiersCreateWithoutItemsInput, modifiersUncheckedCreateWithoutItemsInput>
+  }
+
+  export type modifiersUpdateWithWhereUniqueWithoutItemsInput = {
+    where: modifiersWhereUniqueInput
+    data: XOR<modifiersUpdateWithoutItemsInput, modifiersUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type modifiersUpdateManyWithWhereWithoutItemsInput = {
+    where: modifiersScalarWhereInput
+    data: XOR<modifiersUpdateManyMutationInput, modifiersUncheckedUpdateManyWithoutItemsInput>
+  }
+
+  export type modifiersScalarWhereInput = {
+    AND?: modifiersScalarWhereInput | modifiersScalarWhereInput[]
+    OR?: modifiersScalarWhereInput[]
+    NOT?: modifiersScalarWhereInput | modifiersScalarWhereInput[]
+    id?: IntFilter<"modifiers"> | number
+    created_at?: DateTimeFilter<"modifiers"> | Date | string
+    function?: StringFilter<"modifiers"> | string
+    is_recursive?: BoolFilter<"modifiers"> | boolean
+    start_index?: IntFilter<"modifiers"> | number
+    title?: StringFilter<"modifiers"> | string
+    description?: StringFilter<"modifiers"> | string
+    modifier_item?: IntFilter<"modifiers"> | number
   }
 
   export type titlesUpsertWithWhereUniqueWithoutItemsInput = {
@@ -6197,30 +7985,91 @@ export namespace Prisma {
     AND?: titlesScalarWhereInput | titlesScalarWhereInput[]
     OR?: titlesScalarWhereInput[]
     NOT?: titlesScalarWhereInput | titlesScalarWhereInput[]
-    id?: BigIntFilter<"titles"> | bigint | number
+    id?: IntFilter<"titles"> | number
     created_at?: DateTimeFilter<"titles"> | Date | string
-    item?: BigIntNullableFilter<"titles"> | bigint | number | null
+    item?: IntNullableFilter<"titles"> | number | null
     description?: StringNullableFilter<"titles"> | string | null
+    chapter?: BigIntNullableFilter<"titles"> | bigint | number | null
+    plan?: BigIntNullableFilter<"titles"> | bigint | number | null
   }
 
-  export type itemsCreateWithoutTitlesInput = {
-    id?: bigint | number
+  export type itemsCreateWithoutModifiersInput = {
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     other_items?: itemsCreateNestedManyWithoutItemsInput
+    titles?: titlesCreateNestedManyWithoutItemsInput
   }
 
-  export type itemsUncheckedCreateWithoutTitlesInput = {
-    id?: bigint | number
+  export type itemsUncheckedCreateWithoutModifiersInput = {
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
-    parent?: bigint | number | null
+    parent?: number | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
+    titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
+  }
+
+  export type itemsCreateOrConnectWithoutModifiersInput = {
+    where: itemsWhereUniqueInput
+    create: XOR<itemsCreateWithoutModifiersInput, itemsUncheckedCreateWithoutModifiersInput>
+  }
+
+  export type itemsUpsertWithoutModifiersInput = {
+    update: XOR<itemsUpdateWithoutModifiersInput, itemsUncheckedUpdateWithoutModifiersInput>
+    create: XOR<itemsCreateWithoutModifiersInput, itemsUncheckedCreateWithoutModifiersInput>
+    where?: itemsWhereInput
+  }
+
+  export type itemsUpdateToOneWithWhereWithoutModifiersInput = {
+    where?: itemsWhereInput
+    data: XOR<itemsUpdateWithoutModifiersInput, itemsUncheckedUpdateWithoutModifiersInput>
+  }
+
+  export type itemsUpdateWithoutModifiersInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: itemsUpdateOneWithoutOther_itemsNestedInput
+    other_items?: itemsUpdateManyWithoutItemsNestedInput
+    titles?: titlesUpdateManyWithoutItemsNestedInput
+  }
+
+  export type itemsUncheckedUpdateWithoutModifiersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    parent?: NullableIntFieldUpdateOperationsInput | number | null
+    other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
+    titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
+  }
+
+  export type itemsCreateWithoutTitlesInput = {
+    created_at?: Date | string
+    label?: string | null
+    description?: string | null
+    comment?: string | null
+    items?: itemsCreateNestedOneWithoutOther_itemsInput
+    other_items?: itemsCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersCreateNestedManyWithoutItemsInput
+  }
+
+  export type itemsUncheckedCreateWithoutTitlesInput = {
+    id?: number
+    created_at?: Date | string
+    label?: string | null
+    description?: string | null
+    comment?: string | null
+    parent?: number | null
+    other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
+    modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
   }
 
   export type itemsCreateOrConnectWithoutTitlesInput = {
@@ -6284,23 +8133,24 @@ export namespace Prisma {
   }
 
   export type itemsUpdateWithoutTitlesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     other_items?: itemsUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsUncheckedUpdateWithoutTitlesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
-    parent?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    parent?: NullableIntFieldUpdateOperationsInput | number | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
   }
 
   export type valuesUpsertWithWhereUniqueWithoutTitlesInput = {
@@ -6326,7 +8176,7 @@ export namespace Prisma {
     date?: DateTimeFilter<"values"> | Date | string
     is_flexible?: BoolNullableFilter<"values"> | boolean | null
     function?: BigIntNullableFilter<"values"> | bigint | number | null
-    title?: BigIntFilter<"values"> | bigint | number
+    title?: IntFilter<"values"> | number
     created_at?: DateTimeFilter<"values"> | Date | string
     should?: BigIntNullableFilter<"values"> | bigint | number | null
     is_expense?: BoolFilter<"values"> | boolean
@@ -6341,17 +8191,20 @@ export namespace Prisma {
   }
 
   export type titlesCreateWithoutValuesInput = {
-    id?: bigint | number
     created_at?: Date | string
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
     items?: itemsCreateNestedOneWithoutTitlesInput
   }
 
   export type titlesUncheckedCreateWithoutValuesInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
-    item?: bigint | number | null
+    item?: number | null
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
   }
 
   export type titlesCreateOrConnectWithoutValuesInput = {
@@ -6371,79 +8224,129 @@ export namespace Prisma {
   }
 
   export type titlesUpdateWithoutValuesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     items?: itemsUpdateOneWithoutTitlesNestedInput
   }
 
   export type titlesUncheckedUpdateWithoutValuesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    item?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    item?: NullableIntFieldUpdateOperationsInput | number | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type itemsCreateManyItemsInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
   }
 
+  export type modifiersCreateManyItemsInput = {
+    id?: number
+    created_at?: Date | string
+    function?: string
+    is_recursive?: boolean
+    start_index?: number
+    title?: string
+    description: string
+  }
+
   export type titlesCreateManyItemsInput = {
-    id?: bigint | number
+    id?: number
     created_at?: Date | string
     description?: string | null
+    chapter?: bigint | number | null
+    plan?: bigint | number | null
   }
 
   export type itemsUpdateWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsUncheckedUpdateWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
+    modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
   }
 
   export type itemsUncheckedUpdateManyWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type modifiersUpdateWithoutItemsInput = {
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type modifiersUncheckedUpdateWithoutItemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type modifiersUncheckedUpdateManyWithoutItemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    function?: StringFieldUpdateOperationsInput | string
+    is_recursive?: BoolFieldUpdateOperationsInput | boolean
+    start_index?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+  }
+
   export type titlesUpdateWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     values?: valuesUpdateManyWithoutTitlesNestedInput
   }
 
   export type titlesUncheckedUpdateWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     values?: valuesUncheckedUpdateManyWithoutTitlesNestedInput
   }
 
   export type titlesUncheckedUpdateManyWithoutItemsInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    chapter?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    plan?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type valuesCreateManyTitlesInput = {

@@ -3,10 +3,9 @@ import { TitlesSearch } from "~/pages/history/components/titles_search";
 import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
 import { useState } from "~/hooks/useState";
 import { HistoryChartCard } from "~/pages/history/components/history_chart_card";
-import { ChartItem } from "./components/chart_item";
 
 export default function HistoryPage() {
-  const titles = useState((state) => state.titles);
+  const item = useState((state) => state.item);
 
 
   return (
@@ -16,7 +15,7 @@ export default function HistoryPage() {
           <PageSidebarNav />
           <SidebarInset className="flex flex-col gap-4">
             <TitlesSearch />
-            <HistoryChartCard titles={titles} />
+            <HistoryChartCard item={item} />
           </SidebarInset>
         </div>
       </main>

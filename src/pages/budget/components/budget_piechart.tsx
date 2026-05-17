@@ -1,14 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
 import { Cell, LabelList, Pie, PieChart } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../components/ui/card"
@@ -22,7 +20,7 @@ import {
   type ChartConfig,
 } from "../../../components/ui/chart"
 import { api } from "~/utils/api"
-import type { ItemWithValue } from "~/server/api/routers/items"
+import { DropdownMenuYears } from "./dropdown_year"
 
 export const description = "A pie chart with a label list"
 
@@ -39,66 +37,112 @@ type PathNode = {
   label: string | null
 }
 
-export function BudgetPieChart({itemId}: {itemId: number}) {
-    const [path, setPath] = React.useState<PathNode[]>([{ id: itemId, label: null }]);
+export function BudgetPieChart({ itemId }: { itemId: number }) {
+  const [path, setPath] = React.useState<PathNode[]>([{ id: itemId, label: null }])
+  const [currentYear, setCurrentYear] = React.useState(new Date())
 
-    React.useEffect(() => {
-      setPath([{ id: itemId, label: null }]);
-    }, [itemId]);
+  React.useEffect(() => {
+    setPath([{ id: itemId, label: null }])
+  }, [itemId])
 
-    const currentParent = path[path.length - 1] ?? { id: itemId, label: null };
-    const currentParentId = currentParent.id;
+  const rootNode = path[0] ?? { id: itemId, label: null }
+  const rootItemId = rootNode.id
 
-    const currentParentQuery = api.items.byId.useQuery(
-      { item: currentParentId },
-      { enabled: currentParent.label === null },
-    );
+  const currentParent = path[path.length - 1] ?? { id: itemId, label: null }
+  const currentParentId = currentParent.id
 
-    const currentParentLabel = currentParent.label ?? currentParentQuery.data?.label ?? `Item ${currentParentId}`;
+  const currentParentQuery = api.items.byId.useQuery(
+    { item: currentParentId },
+    { enabled: currentParent.label === null },
+  )
 
-    const chartQuery = api.items.childrenWithValues.useQuery({item: currentParentId, date: new Date("2026-01-01")});
-    const rawData = chartQuery.data ?? [];
+  const rootItemQuery = api.items.byId.useQuery(
+    { item: rootItemId },
+    { enabled: rootNode.label === null && rootItemId !== currentParentId },
+  )
 
-    const chartData = React.useMemo(
-      () =>
-        rawData.map((entry, index) => ({
-          ...entry,
-          colorKey: `item_${entry.id}`,
-          fill: pieColors[index % pieColors.length],
-        })),
-      [rawData],
-    );
+  const currentParentLabel =
+    currentParent.label ?? currentParentQuery.data?.label ?? `Item ${currentParentId}`
 
-    const chartConfig = React.useMemo<ChartConfig>(() => {
-      const config: ChartConfig = {
-        value: {
-          label: "Summe",
-        },
-      };
+  const rootItemLabel = rootNode.label ?? rootItemQuery.data?.label ?? currentParentLabel
 
-      chartData.forEach((entry, index) => {
-        config[entry.colorKey] = {
-          label: entry.label,
-          color: pieColors[index % pieColors.length],
-        };
-      });
+  const currentYearDate = new Date(`${currentYear.getFullYear()}-01-01`)
 
-      return config;
-    }, [chartData]);
+  const chartQuery = api.items.childrenWithValues.useQuery({
+    item: currentParentId,
+    date: currentYearDate,
+  })
 
-    const drillDown = (nextParentId: number, nextParentLabel: string) => {
-      setPath((prev) => [...prev, { id: nextParentId, label: nextParentLabel }]);
-    };
+  const rootChartQuery = api.items.childrenWithValues.useQuery({
+    item: rootItemId,
+    date: currentYearDate,
+  })
 
-    const drillUp = () => {
-      setPath((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev));
-    };
+  const rawData: Array<{ id: number; label: string; value: number }> =
+    (chartQuery.data as Array<{ id: number; label: string; value: number }> | undefined) ?? []
+  const rawRootData: Array<{ id: number; label: string; value: number }> =
+    (rootChartQuery.data as Array<{ id: number; label: string; value: number }> | undefined) ?? []
+
+  const chartData = React.useMemo(
+    () =>
+      rawData.map((entry, index) => ({
+        ...entry,
+        colorKey: `item_${entry.id}`,
+        fill: pieColors[index % pieColors.length],
+      })),
+    [rawData],
+  )
+
+  const currentParentTotal = React.useMemo(
+    () => rawData.reduce((sum, item) => sum + item.value, 0),
+    [rawData],
+  )
+
+  const rootTotal = React.useMemo(() => {
+    if (rootItemId === currentParentId) {
+      return currentParentTotal
+    }
+
+    return rawRootData.reduce((sum, item) => sum + item.value, 0)
+  }, [currentParentId, currentParentTotal, rawRootData, rootItemId])
+
+  const chartConfig = React.useMemo<ChartConfig>(() => {
+    const config: ChartConfig = {
+      value: {
+        label: "Summe",
+      },
+    }
+
+    chartData.forEach((entry, index) => {
+      config[entry.colorKey] = {
+        label: entry.label,
+        color: pieColors[index % pieColors.length],
+      }
+    })
+
+    return config
+  }, [chartData])
+
+  const drillDown = (nextParentId: number, nextParentLabel: string) => {
+    setPath((prev) => [...prev, { id: nextParentId, label: nextParentLabel }])
+  }
+
+  const drillUp = () => {
+    setPath((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))
+  }
+
+  const setYear = (year: Date) => {
+    setCurrentYear(year)
+    chartQuery.refetch()
+    rootChartQuery.refetch()
+  }
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Haushalt</CardTitle>
-        <CardDescription>
+        <DropdownMenuYears onSelect={(year) => setYear(year)} currentYear={currentYear}></DropdownMenuYears>
+        <CardDescription className="w-fit">
           {currentParentLabel}
         </CardDescription>
         <div className="mt-2">
@@ -114,26 +158,39 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
         >
           <PieChart>
             <ChartTooltip
-              content={<ChartTooltipContent nameKey="label" hideLabel />}
+              content={
+                <ChartTooltipContent
+                  nameKey="label"
+                  hideLabel
+                  formatter={(value, name) => {
+                    const entryLabel = String(name ?? "")
+                    const entryValue = Number(value ?? 0)
+
+                    const percentageOfParent =
+                      currentParentTotal > 0 ? Math.round((entryValue / currentParentTotal) * 1000) / 10 : 0
+
+                    const percentageOfRoot =
+                      rootTotal > 0 ? Math.round((entryValue / rootTotal) * 1000) / 10 : 0
+
+                    return (
+                      <div className="grid gap-1">
+                        <div className="text-foreground text-sm font-semibold">
+                          {formatEuroBillions(entryValue)}
+                        </div>
+                        <div className="text-muted-foreground">
+                          {formatPercent(percentageOfParent)} von „{currentParentLabel}“
+                        </div>
+                        <div className="text-muted-foreground">
+                          {formatPercent(percentageOfRoot)} des {rootItemLabel}
+                        </div>
+                        <div className="text-muted-foreground/80 text-[11px]">{entryLabel}</div>
+                      </div>
+                    )
+                  }}
+                />
+              }
             />
-            <Pie data={chartData} dataKey="value"
-                          labelLine={false}
-              label={({ payload, ...props }) => {
-                return (
-                  <text
-                    cx={props.cx}
-                    cy={props.cy}
-                    x={props.x}
-                    y={props.y}
-                    textAnchor={props.textAnchor}
-                    dominantBaseline={props.dominantBaseline}
-                    fill="hsl(var(--foreground))"
-                  >
-                    {calculatePercentage(payload.id, rawData).toString()}%
-                  </text>
-                )
-              }}
-              nameKey="label">
+            <Pie data={chartData} dataKey="value" labelLine={false} nameKey="label">
               {chartData.map((entry) => (
                 <Cell
                   key={entry.id}
@@ -147,9 +204,7 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
                 className="fill-background"
                 stroke="none"
                 fontSize={12}
-                formatter={(value: string) =>
-                  value
-                }
+                formatter={(value: string) => value}
               />
             </Pie>
             <ChartLegend
@@ -163,15 +218,19 @@ export function BudgetPieChart({itemId}: {itemId: number}) {
   )
 }
 
-function calculatePercentage(id: number, data: ItemWithValue[]): Number{
-  const value = data.find((element) => element.id == id)?.value;
-  if(value == undefined) {
-    return 0;
-  }
-  var sum: number = 0;
-  data.forEach((item) => sum += item.value);
-  if (sum == 0) {
-    return 0;
-  }
-  return Math.round((value/sum) * 1000)/10;
+function formatEuroBillions(value: number): string {
+  const inBillions = value / 1_000_000_000
+  const formatted = new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format(inBillions)
+
+  return `${formatted} Mrd. €`
+}
+
+function formatPercent(value: number): string {
+  return `${new Intl.NumberFormat("de-DE", {
+    minimumFractionDigits: value % 1 === 0 ? 0 : 1,
+    maximumFractionDigits: 1,
+  }).format(value)}%`
 }
