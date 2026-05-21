@@ -51,9 +51,9 @@ export const valuesRouter = createTRPCRouter({
             s.date,
             COALESCE(s.recursive_should_sum, 0) AS recursive_should_sum
             FROM sum_by_child s
-            ORDER BY s.date;`) as Array<{ date: bigint; recursive_should_sum: bigint | null }>;
+            ORDER BY s.date;`);
 
-            return result.map((row) => {
+            return (result as Array<any>).map((row: any) => {
                 return { date: new Date(Number(row.date)), value: Number(row.recursive_should_sum ?? 0n) };
             });
 

@@ -38,7 +38,7 @@ export const itemsRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             const row = await ctx.db.items.findUnique({
                 where: {
-                    id: BigInt(input.item),
+                    id: input.item,
                 },
                 select: {
                     id: true,

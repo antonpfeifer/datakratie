@@ -20,7 +20,7 @@ export const HistoryChartCard = ({
   }
   const chartQuery = api.values.byItemAndModifiers.useQuery({item: item.id, modifiers: []});
 
-  const chartData = chartQuery.data?.map((entry) => {
+  const chartData = chartQuery.data?.map((entry: any) => {
     return {date: entry.date.toISOString(), value: Number(entry.value)}
   }) ?? []
 
@@ -44,3 +44,4 @@ export const HistoryChartCard = ({
       </Card>
   );
 };
+export default function ComponentAsPage() { return null; }

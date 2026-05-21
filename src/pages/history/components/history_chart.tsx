@@ -9,7 +9,7 @@ export const HistoryChart = ({
     chartData,
     tooltipLabel
 }: React.ComponentProps<"div"> & {
-    chartData: Array<Object>
+    chartData: Array<object>
     tooltipLabel: string
 }) => {
     const chartConfig = {
@@ -76,3 +76,4 @@ export const HistoryChart = ({
         </ChartContainer>
     )
 }
+export default function ComponentAsPage() { return null; }

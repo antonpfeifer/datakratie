@@ -37,3 +37,5 @@ export function DropdownMenuYears(
     </DropdownMenu>
   )
 }
+
+export default function ComponentAsPage() { return null; }

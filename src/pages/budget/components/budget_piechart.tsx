@@ -234,3 +234,5 @@ function formatPercent(value: number): string {
     maximumFractionDigits: 1,
   }).format(value)}%`
 }
+
+export default function ComponentAsPage() { return null; }
