@@ -17,7 +17,7 @@ export function BudgetItemBreadcrumb({ childId }: { childId: number }) {
         <Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="/">Haushalt</BreadcrumbLink>
+      <BreadcrumbLink href="/">Faktenlage</BreadcrumbLink>
     </BreadcrumbItem>
     {parents.length > 0 && <BreadcrumbSeparator />}
   {parents.map((parent, index) => (
