@@ -44,6 +44,7 @@ export const valuesRouter = createTRPCRouter({
             FROM item_tree t
             LEFT JOIN titles ti ON ti.item = t.node_id
             LEFT JOIN "values" v ON v.title = ti.id
+            WHERE v.date IS NOT NULL
             GROUP BY v.date
             )
 

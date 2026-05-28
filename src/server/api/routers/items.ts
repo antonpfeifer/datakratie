@@ -43,6 +43,7 @@ export const itemsRouter = createTRPCRouter({
                 select: {
                     id: true,
                     label: true,
+                    parent: true,
                 },
             });
 
@@ -53,6 +54,7 @@ export const itemsRouter = createTRPCRouter({
             return {
                 id: Number(row.id),
                 label: row.label ?? `Item ${input.item}`,
+                parent: row.parent ? Number(row.parent) : null,
             };
         }),
 

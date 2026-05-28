@@ -1,8 +1,6 @@
 import * as React from "react"
 import { useRouter } from "next/router"
 import { api } from "~/utils/api"
-import { PageSidebarNav } from "~/components/page_sidebar_nav"
-import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar"
 import { HistoryChartCard } from "~/pages/history/components/history_chart_card"
 import { BudgetPieChart } from "~/pages/budget/components/budget_piechart"
 
@@ -28,24 +26,20 @@ export default function ItemPage() {
   const item = itemQuery.data ? { id: itemQuery.data.id, label: itemQuery.data.label, description: null } : null
 
   return (
-    <SidebarProvider>
-      <main className="flex min-h-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 w-full">
-        <div className="flex w-full max-w-6xl gap-4">
-          <PageSidebarNav />
-          <SidebarInset className="flex flex-col gap-4 bg-transparent w-full">
-            {itemId !== undefined ? (
-              <>
-                <HistoryChartCard item={item} />
-                {hasChildren ? (
-                  <BudgetPieChart itemId={itemId} />
-                ) : null}
-              </>
-            ) : (
-              <div className="text-white text-center">Lade...</div>
-            )}
-          </SidebarInset>
-        </div>
-      </main>
-    </SidebarProvider>
+    <main className="flex min-h-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 w-full">
+      <div className="flex w-full max-w-6xl gap-4 flex-col">
+        {itemId !== undefined ? (
+          <>
+            <HistoryChartCard item={item} />
+            {hasChildren ? (
+              <BudgetPieChart itemId={itemId} />
+            ) : null}
+          </>
+        ) : (
+          <div className="text-white text-center">Lade...</div>
+        )}
+      </div>
+    </main>
   )
 }
+

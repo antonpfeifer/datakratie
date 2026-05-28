@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/router"
 import { Cell, LabelList, Pie, PieChart } from "recharts"
 
 import {
@@ -32,39 +33,27 @@ const pieColors = [
   "var(--chart-5)",
 ]
 
-type PathNode = {
-  id: number
-  label: string | null
-}
-
 export function BudgetPieChart({ itemId }: { itemId: number }) {
-  const [path, setPath] = React.useState<PathNode[]>([{ id: itemId, label: null }])
+  const router = useRouter()
+  const { rootId } = router.query
   const [currentYear, setCurrentYear] = React.useState(new Date())
 
-  React.useEffect(() => {
-    setPath([{ id: itemId, label: null }])
-  }, [itemId])
-
-  const rootNode = path[0] ?? { id: itemId, label: null }
-  const rootItemId = rootNode.id
-
-  const currentParent = path[path.length - 1] ?? { id: itemId, label: null }
-  const currentParentId = currentParent.id
+  const parsedRootId = typeof rootId === "string" ? parseInt(rootId, 10) : itemId
+  const rootItemId = !isNaN(parsedRootId) ? parsedRootId : itemId
+  const currentParentId = itemId
 
   const currentParentQuery = api.items.byId.useQuery(
     { item: currentParentId },
-    { enabled: currentParent.label === null },
   )
 
   const rootItemQuery = api.items.byId.useQuery(
     { item: rootItemId },
-    { enabled: rootNode.label === null && rootItemId !== currentParentId },
+    { enabled: rootItemId !== currentParentId },
   )
 
-  const currentParentLabel =
-    currentParent.label ?? currentParentQuery.data?.label ?? `Item ${currentParentId}`
-
-  const rootItemLabel = rootNode.label ?? rootItemQuery.data?.label ?? currentParentLabel
+  const currentParentLabel = currentParentQuery.data?.label ?? `Item ${currentParentId}`
+  const rootItemLabel = rootItemQuery.data?.label ?? currentParentLabel
+  const parentId = currentParentQuery.data?.parent
 
   const currentYearDate = new Date(`${currentYear.getFullYear()}-01-01`)
 
@@ -123,18 +112,26 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
     return config
   }, [chartData])
 
-  const drillDown = (nextParentId: number, nextParentLabel: string) => {
-    setPath((prev) => [...prev, { id: nextParentId, label: nextParentLabel }])
+  const drillDown = (nextParentId: number) => {
+    void router.push({
+      pathname: `/item/${nextParentId}`,
+      query: { rootId: rootItemId }
+    })
   }
 
   const drillUp = () => {
-    setPath((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))
+    if (parentId !== undefined && parentId !== null) {
+      void router.push({
+        pathname: `/item/${parentId}`,
+        query: rootItemId !== parentId ? { rootId: rootItemId } : undefined
+      })
+    }
   }
 
   const setYear = (year: Date) => {
     setCurrentYear(year)
-    chartQuery.refetch()
-    rootChartQuery.refetch()
+    void chartQuery.refetch()
+    void rootChartQuery.refetch()
   }
 
   return (
@@ -146,7 +143,7 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
           {currentParentLabel}
         </CardDescription>
         <div className="mt-2">
-          <Button variant="outline" size="sm" onClick={drillUp} disabled={path.length <= 1}>
+          <Button variant="outline" size="sm" onClick={drillUp} disabled={parentId === undefined || parentId === null}>
             Eine Ebene zurück
           </Button>
         </div>
@@ -196,7 +193,7 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
                   key={entry.id}
                   fill={entry.fill}
                   style={{ cursor: "pointer" }}
-                  onClick={() => drillDown(entry.id, entry.label)}
+                  onClick={() => drillDown(entry.id)}
                 />
               ))}
               <LabelList
