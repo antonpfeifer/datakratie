@@ -31,7 +31,7 @@ export default function HomePage() {
       <main className="relative z-10 flex min-h-screen items-center justify-center p-6">
         <div className="w-full max-w-2xl flex flex-col items-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-[5rem] mb-8">
-            Datakratie
+            Faktenlage
           </h1>
           <div className="w-full relative bg-card/80 backdrop-blur-sm rounded-xl shadow-lg ring-1 ring-foreground/10 overflow-hidden">
             <BudgetItemSearch />
