@@ -29,8 +29,7 @@ export const HistoryChartCard = ({
   return (
       <Card className="flex flex-col p-4">
         <CardHeader className="pb-2">
-          <CardTitle>{label}</CardTitle>
-          <CardDescription>Jahresverlauf der Werte</CardDescription>
+          <CardTitle>Verlauf</CardTitle>
         </CardHeader>
         <CardContent>
           {chartQuery.isLoading ? (

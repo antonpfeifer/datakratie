@@ -23,6 +23,9 @@ import {
 import { api } from "~/utils/api"
 import { DropdownMenuYears } from "./dropdown_year"
 
+import CurrencyUtils from "~/lib/currency_utils"
+import ItemUtils from "~/lib/item_utils"
+
 export const description = "A pie chart with a label list"
 
 const pieColors = [
@@ -53,7 +56,6 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
 
   const currentParentLabel = currentParentQuery.data?.label ?? `Item ${currentParentId}`
   const rootItemLabel = rootItemQuery.data?.label ?? currentParentLabel
-  const parentId = currentParentQuery.data?.parent
 
   const currentYearDate = new Date(`${currentYear.getFullYear()}-01-01`)
 
@@ -119,15 +121,6 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
     })
   }
 
-  const drillUp = () => {
-    if (parentId !== undefined && parentId !== null) {
-      void router.push({
-        pathname: `/item/${parentId}`,
-        query: rootItemId !== parentId ? { rootId: rootItemId } : undefined
-      })
-    }
-  }
-
   const setYear = (year: Date) => {
     setCurrentYear(year)
     void chartQuery.refetch()
@@ -137,21 +130,15 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Haushalt</CardTitle>
-        <DropdownMenuYears onSelect={(year) => setYear(year)} currentYear={currentYear}></DropdownMenuYears>
-        <CardDescription className="w-fit">
-          {currentParentLabel}
-        </CardDescription>
-        <div className="mt-2">
-          <Button variant="outline" size="sm" onClick={drillUp} disabled={parentId === undefined || parentId === null}>
-            Eine Ebene zurück
-          </Button>
+        <div className="flex justify-between items-center">
+          <CardTitle>Anteile der Einzelposten</CardTitle>
+          <DropdownMenuYears onSelect={(year) => setYear(year)} currentYear={currentYear}></DropdownMenuYears>
         </div>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
+          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[300px]"
         >
           <PieChart>
             <ChartTooltip
@@ -172,14 +159,16 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
                     return (
                       <div className="grid gap-1">
                         <div className="text-foreground text-sm font-semibold">
-                          {formatEuroBillions(entryValue)}
+                          {CurrencyUtils.formatBudgetValue(entryValue)}
                         </div>
                         <div className="text-muted-foreground">
                           {formatPercent(percentageOfParent)} von „{currentParentLabel}“
                         </div>
-                        <div className="text-muted-foreground">
-                          {formatPercent(percentageOfRoot)} des {rootItemLabel}
-                        </div>
+                        {rootItemLabel !== currentParentLabel ? (
+                          <div className="text-muted-foreground">
+                            {formatPercent(percentageOfRoot)} von "{rootItemLabel}"
+                          </div>
+                        ) : null}
                         <div className="text-muted-foreground/80 text-[11px]">{entryLabel}</div>
                       </div>
                     )
@@ -215,15 +204,7 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
   )
 }
 
-function formatEuroBillions(value: number): string {
-  const inBillions = value / 1_000_000_000
-  const formatted = new Intl.NumberFormat("de-DE", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }).format(inBillions)
 
-  return `${formatted} Mrd. €`
-}
 
 function formatPercent(value: number): string {
   return `${new Intl.NumberFormat("de-DE", {

@@ -3,6 +3,12 @@ import { useRouter } from "next/router"
 import { api } from "~/utils/api"
 import { HistoryChartCard } from "~/pages/history/components/history_chart_card"
 import { BudgetPieChart } from "~/pages/budget/components/budget_piechart"
+import { BudgetItemBreadcrumb } from "../budget/components/budget_item_breadcrumb"
+import { GlobalSearch } from "~/components/global_search"
+
+import {
+  Menubar,
+} from "~/components/ui/menubar"
 
 export default function ItemPage() {
   const router = useRouter()
@@ -26,17 +32,24 @@ export default function ItemPage() {
   const item = itemQuery.data ? { id: itemQuery.data.id, label: itemQuery.data.label, description: null } : null
 
   return (
-    <main className="flex min-h-screen items-start justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-6 w-full">
+    <main className="flex min-h-screen items-start justify-center bg-slate-50 p-6 w-full">
       <div className="flex w-full max-w-6xl gap-4 flex-col">
         {itemId !== undefined ? (
           <>
+            <Menubar className="p-[10px] flex items-center justify-between h-auto"> 
+              <BudgetItemBreadcrumb childId={itemId} />
+              <div className="p-1">
+                <GlobalSearch />
+              </div>
+            </Menubar>
+         
             <HistoryChartCard item={item} />
             {hasChildren ? (
               <BudgetPieChart itemId={itemId} />
             ) : null}
           </>
         ) : (
-          <div className="text-white text-center">Lade...</div>
+          <div className="text-slate-500 text-center">Lade...</div>
         )}
       </div>
     </main>
