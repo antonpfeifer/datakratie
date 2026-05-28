@@ -1,12 +1,30 @@
 import { Prisma } from "generated/prisma";
 import { z } from "zod";
 import type { Item } from "~/hooks/useState";
+import ItemUtils from "~/lib/item_utils";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export type ItemWithValue = {id: number, value: number, label: string};
 
 export const itemsRouter = createTRPCRouter({
+    parents: publicProcedure
+        .input(z.object({query: z.number().int().nonnegative()}))
+        .query(async ({ ctx, input }) => {
+            const parentIds = ItemUtils.getParentIds(input.query);
+            console.log("Parent IDs: " + parentIds.toString());
+            const data = await ctx.db.items.findMany({
+                where: {
+                    id: { in: parentIds }
+                }
+            });
+
+            return data.map((row) => ({
+                id: Number(row.id),
+                label: row.label ?? `Item ${row.id}`,
+            })).sort((a, b) => a.id - b.id);
+        }),
+
     search: publicProcedure
         .input(z.object({query: z.string()}))
     .query(async ({ ctx, input }) => {
@@ -38,11 +56,12 @@ export const itemsRouter = createTRPCRouter({
         .query(async ({ ctx, input }) => {
             const row = await ctx.db.items.findUnique({
                 where: {
-                    id: BigInt(input.item),
+                    id: input.item,
                 },
                 select: {
                     id: true,
                     label: true,
+                    parent: true,
                 },
             });
 
@@ -53,6 +72,7 @@ export const itemsRouter = createTRPCRouter({
             return {
                 id: Number(row.id),
                 label: row.label ?? `Item ${input.item}`,
+                parent: row.parent ? Number(row.parent) : null,
             };
         }),
 

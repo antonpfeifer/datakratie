@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useRouter } from "next/router"
 import { Cell, LabelList, Pie, PieChart } from "recharts"
 
 import {
@@ -22,6 +23,9 @@ import {
 import { api } from "~/utils/api"
 import { DropdownMenuYears } from "./dropdown_year"
 
+import CurrencyUtils from "~/lib/currency_utils"
+import ItemUtils from "~/lib/item_utils"
+
 export const description = "A pie chart with a label list"
 
 const pieColors = [
@@ -32,39 +36,26 @@ const pieColors = [
   "var(--chart-5)",
 ]
 
-type PathNode = {
-  id: number
-  label: string | null
-}
-
 export function BudgetPieChart({ itemId }: { itemId: number }) {
-  const [path, setPath] = React.useState<PathNode[]>([{ id: itemId, label: null }])
+  const router = useRouter()
+  const { rootId } = router.query
   const [currentYear, setCurrentYear] = React.useState(new Date())
 
-  React.useEffect(() => {
-    setPath([{ id: itemId, label: null }])
-  }, [itemId])
-
-  const rootNode = path[0] ?? { id: itemId, label: null }
-  const rootItemId = rootNode.id
-
-  const currentParent = path[path.length - 1] ?? { id: itemId, label: null }
-  const currentParentId = currentParent.id
+  const parsedRootId = typeof rootId === "string" ? parseInt(rootId, 10) : itemId
+  const rootItemId = !isNaN(parsedRootId) ? parsedRootId : itemId
+  const currentParentId = itemId
 
   const currentParentQuery = api.items.byId.useQuery(
     { item: currentParentId },
-    { enabled: currentParent.label === null },
   )
 
   const rootItemQuery = api.items.byId.useQuery(
     { item: rootItemId },
-    { enabled: rootNode.label === null && rootItemId !== currentParentId },
+    { enabled: rootItemId !== currentParentId },
   )
 
-  const currentParentLabel =
-    currentParent.label ?? currentParentQuery.data?.label ?? `Item ${currentParentId}`
-
-  const rootItemLabel = rootNode.label ?? rootItemQuery.data?.label ?? currentParentLabel
+  const currentParentLabel = currentParentQuery.data?.label ?? `Item ${currentParentId}`
+  const rootItemLabel = rootItemQuery.data?.label ?? currentParentLabel
 
   const currentYearDate = new Date(`${currentYear.getFullYear()}-01-01`)
 
@@ -123,38 +114,31 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
     return config
   }, [chartData])
 
-  const drillDown = (nextParentId: number, nextParentLabel: string) => {
-    setPath((prev) => [...prev, { id: nextParentId, label: nextParentLabel }])
-  }
-
-  const drillUp = () => {
-    setPath((prev) => (prev.length > 1 ? prev.slice(0, -1) : prev))
+  const drillDown = (nextParentId: number) => {
+    void router.push({
+      pathname: `/item/${nextParentId}`,
+      query: { rootId: rootItemId }
+    })
   }
 
   const setYear = (year: Date) => {
     setCurrentYear(year)
-    chartQuery.refetch()
-    rootChartQuery.refetch()
+    void chartQuery.refetch()
+    void rootChartQuery.refetch()
   }
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Haushalt</CardTitle>
-        <DropdownMenuYears onSelect={(year) => setYear(year)} currentYear={currentYear}></DropdownMenuYears>
-        <CardDescription className="w-fit">
-          {currentParentLabel}
-        </CardDescription>
-        <div className="mt-2">
-          <Button variant="outline" size="sm" onClick={drillUp} disabled={path.length <= 1}>
-            Eine Ebene zurück
-          </Button>
+        <div className="flex justify-between items-center">
+          <CardTitle>Anteile der Einzelposten</CardTitle>
+          <DropdownMenuYears onSelect={(year) => setYear(year)} currentYear={currentYear}></DropdownMenuYears>
         </div>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[250px]"
+          className="[&_.recharts-text]:fill-background mx-auto aspect-square max-h-[300px]"
         >
           <PieChart>
             <ChartTooltip
@@ -175,14 +159,16 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
                     return (
                       <div className="grid gap-1">
                         <div className="text-foreground text-sm font-semibold">
-                          {formatEuroBillions(entryValue)}
+                          {CurrencyUtils.formatBudgetValue(entryValue)}
                         </div>
                         <div className="text-muted-foreground">
                           {formatPercent(percentageOfParent)} von „{currentParentLabel}“
                         </div>
-                        <div className="text-muted-foreground">
-                          {formatPercent(percentageOfRoot)} des {rootItemLabel}
-                        </div>
+                        {rootItemLabel !== currentParentLabel ? (
+                          <div className="text-muted-foreground">
+                            {formatPercent(percentageOfRoot)} von "{rootItemLabel}"
+                          </div>
+                        ) : null}
                         <div className="text-muted-foreground/80 text-[11px]">{entryLabel}</div>
                       </div>
                     )
@@ -196,7 +182,7 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
                   key={entry.id}
                   fill={entry.fill}
                   style={{ cursor: "pointer" }}
-                  onClick={() => drillDown(entry.id, entry.label)}
+                  onClick={() => drillDown(entry.id)}
                 />
               ))}
               <LabelList
@@ -218,15 +204,7 @@ export function BudgetPieChart({ itemId }: { itemId: number }) {
   )
 }
 
-function formatEuroBillions(value: number): string {
-  const inBillions = value / 1_000_000_000
-  const formatted = new Intl.NumberFormat("de-DE", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }).format(inBillions)
 
-  return `${formatted} Mrd. €`
-}
 
 function formatPercent(value: number): string {
   return `${new Intl.NumberFormat("de-DE", {
@@ -234,3 +212,5 @@ function formatPercent(value: number): string {
     maximumFractionDigits: 1,
   }).format(value)}%`
 }
+
+export default function ComponentAsPage() { return null; }

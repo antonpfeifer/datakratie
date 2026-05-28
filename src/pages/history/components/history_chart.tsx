@@ -2,6 +2,7 @@ import React from "react"
 import * as RechartsPrimitive from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "../../../components/ui/chart"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
+import CurrencyUtils from "~/lib/currency_utils"
 
 
 
@@ -9,7 +10,7 @@ export const HistoryChart = ({
     chartData,
     tooltipLabel
 }: React.ComponentProps<"div"> & {
-    chartData: Array<Object>
+    chartData: Array<object>
     tooltipLabel: string
 }) => {
     const chartConfig = {
@@ -62,6 +63,11 @@ export const HistoryChart = ({
                       year: "numeric",
                     })
                   }}
+                  formatter={(value) => {
+                    const numValue = typeof value === 'number' ? value : Number(value);
+                    if (isNaN(numValue)) return value;
+                    return CurrencyUtils.formatBudgetValue(numValue);
+                  }}
                 />
               }
             />
@@ -76,3 +82,4 @@ export const HistoryChart = ({
         </ChartContainer>
     )
 }
+export default function ComponentAsPage() { return null; }

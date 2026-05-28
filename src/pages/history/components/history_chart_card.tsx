@@ -20,7 +20,7 @@ export const HistoryChartCard = ({
   }
   const chartQuery = api.values.byItemAndModifiers.useQuery({item: item.id, modifiers: []});
 
-  const chartData = chartQuery.data?.map((entry) => {
+  const chartData = chartQuery.data?.map((entry: any) => {
     return {date: entry.date.toISOString(), value: Number(entry.value)}
   }) ?? []
 
@@ -29,8 +29,7 @@ export const HistoryChartCard = ({
   return (
       <Card className="flex flex-col p-4">
         <CardHeader className="pb-2">
-          <CardTitle>{label}</CardTitle>
-          <CardDescription>Jahresverlauf der Werte</CardDescription>
+          <CardTitle>Verlauf</CardTitle>
         </CardHeader>
         <CardContent>
           {chartQuery.isLoading ? (
@@ -44,3 +43,4 @@ export const HistoryChartCard = ({
       </Card>
   );
 };
+export default function ComponentAsPage() { return null; }

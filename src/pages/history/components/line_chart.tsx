@@ -206,3 +206,5 @@ export function ChartLineInteractive() {
     </Card>
   )
 }
+
+export default function ComponentAsPage() { return null; }

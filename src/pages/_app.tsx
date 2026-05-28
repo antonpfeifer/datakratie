@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import "../styles/globals.css";
+import "../styles/hero.css";
 
 import { api } from "~/utils/api";
 
