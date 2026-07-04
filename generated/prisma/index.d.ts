@@ -37,6 +37,11 @@ export type titles = $Result.DefaultSelection<Prisma.$titlesPayload>
  * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
  */
 export type values = $Result.DefaultSelection<Prisma.$valuesPayload>
+/**
+ * Model charts
+ * This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+ */
+export type charts = $Result.DefaultSelection<Prisma.$chartsPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -205,6 +210,16 @@ export class PrismaClient<
     * ```
     */
   get values(): Prisma.valuesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.charts`: Exposes CRUD operations for the **charts** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Charts
+    * const charts = await prisma.charts.findMany()
+    * ```
+    */
+  get charts(): Prisma.chartsDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -649,7 +664,8 @@ export namespace Prisma {
     items: 'items',
     modifiers: 'modifiers',
     titles: 'titles',
-    values: 'values'
+    values: 'values',
+    charts: 'charts'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -668,7 +684,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "items" | "modifiers" | "titles" | "values"
+      modelProps: "items" | "modifiers" | "titles" | "values" | "charts"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -968,6 +984,80 @@ export namespace Prisma {
           }
         }
       }
+      charts: {
+        payload: Prisma.$chartsPayload<ExtArgs>
+        fields: Prisma.chartsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.chartsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.chartsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          findFirst: {
+            args: Prisma.chartsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.chartsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          findMany: {
+            args: Prisma.chartsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>[]
+          }
+          create: {
+            args: Prisma.chartsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          createMany: {
+            args: Prisma.chartsCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.chartsCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>[]
+          }
+          delete: {
+            args: Prisma.chartsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          update: {
+            args: Prisma.chartsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          deleteMany: {
+            args: Prisma.chartsDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.chartsUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.chartsUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>[]
+          }
+          upsert: {
+            args: Prisma.chartsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$chartsPayload>
+          }
+          aggregate: {
+            args: Prisma.ChartsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCharts>
+          }
+          groupBy: {
+            args: Prisma.chartsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChartsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.chartsCountArgs<ExtArgs>
+            result: $Utils.Optional<ChartsCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1072,6 +1162,7 @@ export namespace Prisma {
     modifiers?: modifiersOmit
     titles?: titlesOmit
     values?: valuesOmit
+    charts?: chartsOmit
   }
 
   /* Types for Logging */
@@ -1260,6 +1351,7 @@ export namespace Prisma {
     description: string | null
     comment: string | null
     parent: number | null
+    path: string | null
   }
 
   export type ItemsMaxAggregateOutputType = {
@@ -1269,6 +1361,7 @@ export namespace Prisma {
     description: string | null
     comment: string | null
     parent: number | null
+    path: string | null
   }
 
   export type ItemsCountAggregateOutputType = {
@@ -1278,6 +1371,7 @@ export namespace Prisma {
     description: number
     comment: number
     parent: number
+    path: number
     _all: number
   }
 
@@ -1299,6 +1393,7 @@ export namespace Prisma {
     description?: true
     comment?: true
     parent?: true
+    path?: true
   }
 
   export type ItemsMaxAggregateInputType = {
@@ -1308,6 +1403,7 @@ export namespace Prisma {
     description?: true
     comment?: true
     parent?: true
+    path?: true
   }
 
   export type ItemsCountAggregateInputType = {
@@ -1317,6 +1413,7 @@ export namespace Prisma {
     description?: true
     comment?: true
     parent?: true
+    path?: true
     _all?: true
   }
 
@@ -1413,6 +1510,7 @@ export namespace Prisma {
     description: string | null
     comment: string | null
     parent: number | null
+    path: string | null
     _count: ItemsCountAggregateOutputType | null
     _avg: ItemsAvgAggregateOutputType | null
     _sum: ItemsSumAggregateOutputType | null
@@ -1441,6 +1539,7 @@ export namespace Prisma {
     description?: boolean
     comment?: boolean
     parent?: boolean
+    path?: boolean
     items?: boolean | items$itemsArgs<ExtArgs>
     other_items?: boolean | items$other_itemsArgs<ExtArgs>
     modifiers?: boolean | items$modifiersArgs<ExtArgs>
@@ -1455,6 +1554,7 @@ export namespace Prisma {
     description?: boolean
     comment?: boolean
     parent?: boolean
+    path?: boolean
     items?: boolean | items$itemsArgs<ExtArgs>
   }, ExtArgs["result"]["items"]>
 
@@ -1465,6 +1565,7 @@ export namespace Prisma {
     description?: boolean
     comment?: boolean
     parent?: boolean
+    path?: boolean
     items?: boolean | items$itemsArgs<ExtArgs>
   }, ExtArgs["result"]["items"]>
 
@@ -1475,9 +1576,10 @@ export namespace Prisma {
     description?: boolean
     comment?: boolean
     parent?: boolean
+    path?: boolean
   }
 
-  export type itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "label" | "description" | "comment" | "parent", ExtArgs["result"]["items"]>
+  export type itemsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "label" | "description" | "comment" | "parent" | "path", ExtArgs["result"]["items"]>
   export type itemsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | items$itemsArgs<ExtArgs>
     other_items?: boolean | items$other_itemsArgs<ExtArgs>
@@ -1507,6 +1609,7 @@ export namespace Prisma {
       description: string | null
       comment: string | null
       parent: number | null
+      path: string | null
     }, ExtArgs["result"]["items"]>
     composites: {}
   }
@@ -1940,6 +2043,7 @@ export namespace Prisma {
     readonly description: FieldRef<"items", 'String'>
     readonly comment: FieldRef<"items", 'String'>
     readonly parent: FieldRef<"items", 'Int'>
+    readonly path: FieldRef<"items", 'String'>
   }
     
 
@@ -5989,6 +6093,1022 @@ export namespace Prisma {
 
 
   /**
+   * Model charts
+   */
+
+  export type AggregateCharts = {
+    _count: ChartsCountAggregateOutputType | null
+    _avg: ChartsAvgAggregateOutputType | null
+    _sum: ChartsSumAggregateOutputType | null
+    _min: ChartsMinAggregateOutputType | null
+    _max: ChartsMaxAggregateOutputType | null
+  }
+
+  export type ChartsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ChartsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ChartsMinAggregateOutputType = {
+    id: number | null
+    created_at: Date | null
+    date_from: Date | null
+    date_until: Date | null
+  }
+
+  export type ChartsMaxAggregateOutputType = {
+    id: number | null
+    created_at: Date | null
+    date_from: Date | null
+    date_until: Date | null
+  }
+
+  export type ChartsCountAggregateOutputType = {
+    id: number
+    created_at: number
+    date_from: number
+    date_until: number
+    _all: number
+  }
+
+
+  export type ChartsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ChartsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ChartsMinAggregateInputType = {
+    id?: true
+    created_at?: true
+    date_from?: true
+    date_until?: true
+  }
+
+  export type ChartsMaxAggregateInputType = {
+    id?: true
+    created_at?: true
+    date_from?: true
+    date_until?: true
+  }
+
+  export type ChartsCountAggregateInputType = {
+    id?: true
+    created_at?: true
+    date_from?: true
+    date_until?: true
+    _all?: true
+  }
+
+  export type ChartsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which charts to aggregate.
+     */
+    where?: chartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of charts to fetch.
+     */
+    orderBy?: chartsOrderByWithRelationInput | chartsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: chartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` charts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` charts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned charts
+    **/
+    _count?: true | ChartsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChartsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChartsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChartsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChartsMaxAggregateInputType
+  }
+
+  export type GetChartsAggregateType<T extends ChartsAggregateArgs> = {
+        [P in keyof T & keyof AggregateCharts]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCharts[P]>
+      : GetScalarType<T[P], AggregateCharts[P]>
+  }
+
+
+
+
+  export type chartsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: chartsWhereInput
+    orderBy?: chartsOrderByWithAggregationInput | chartsOrderByWithAggregationInput[]
+    by: ChartsScalarFieldEnum[] | ChartsScalarFieldEnum
+    having?: chartsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChartsCountAggregateInputType | true
+    _avg?: ChartsAvgAggregateInputType
+    _sum?: ChartsSumAggregateInputType
+    _min?: ChartsMinAggregateInputType
+    _max?: ChartsMaxAggregateInputType
+  }
+
+  export type ChartsGroupByOutputType = {
+    id: number
+    created_at: Date
+    date_from: Date
+    date_until: Date
+    _count: ChartsCountAggregateOutputType | null
+    _avg: ChartsAvgAggregateOutputType | null
+    _sum: ChartsSumAggregateOutputType | null
+    _min: ChartsMinAggregateOutputType | null
+    _max: ChartsMaxAggregateOutputType | null
+  }
+
+  type GetChartsGroupByPayload<T extends chartsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChartsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChartsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChartsGroupByOutputType[P]>
+            : GetScalarType<T[P], ChartsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type chartsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    date_from?: boolean
+    date_until?: boolean
+  }, ExtArgs["result"]["charts"]>
+
+  export type chartsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    date_from?: boolean
+    date_until?: boolean
+  }, ExtArgs["result"]["charts"]>
+
+  export type chartsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    created_at?: boolean
+    date_from?: boolean
+    date_until?: boolean
+  }, ExtArgs["result"]["charts"]>
+
+  export type chartsSelectScalar = {
+    id?: boolean
+    created_at?: boolean
+    date_from?: boolean
+    date_until?: boolean
+  }
+
+  export type chartsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "date_from" | "date_until", ExtArgs["result"]["charts"]>
+
+  export type $chartsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "charts"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      created_at: Date
+      date_from: Date
+      date_until: Date
+    }, ExtArgs["result"]["charts"]>
+    composites: {}
+  }
+
+  type chartsGetPayload<S extends boolean | null | undefined | chartsDefaultArgs> = $Result.GetResult<Prisma.$chartsPayload, S>
+
+  type chartsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<chartsFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChartsCountAggregateInputType | true
+    }
+
+  export interface chartsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['charts'], meta: { name: 'charts' } }
+    /**
+     * Find zero or one Charts that matches the filter.
+     * @param {chartsFindUniqueArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends chartsFindUniqueArgs>(args: SelectSubset<T, chartsFindUniqueArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Charts that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {chartsFindUniqueOrThrowArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends chartsFindUniqueOrThrowArgs>(args: SelectSubset<T, chartsFindUniqueOrThrowArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Charts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsFindFirstArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends chartsFindFirstArgs>(args?: SelectSubset<T, chartsFindFirstArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Charts that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsFindFirstOrThrowArgs} args - Arguments to find a Charts
+     * @example
+     * // Get one Charts
+     * const charts = await prisma.charts.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends chartsFindFirstOrThrowArgs>(args?: SelectSubset<T, chartsFindFirstOrThrowArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Charts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Charts
+     * const charts = await prisma.charts.findMany()
+     * 
+     * // Get first 10 Charts
+     * const charts = await prisma.charts.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chartsWithIdOnly = await prisma.charts.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends chartsFindManyArgs>(args?: SelectSubset<T, chartsFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Charts.
+     * @param {chartsCreateArgs} args - Arguments to create a Charts.
+     * @example
+     * // Create one Charts
+     * const Charts = await prisma.charts.create({
+     *   data: {
+     *     // ... data to create a Charts
+     *   }
+     * })
+     * 
+     */
+    create<T extends chartsCreateArgs>(args: SelectSubset<T, chartsCreateArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Charts.
+     * @param {chartsCreateManyArgs} args - Arguments to create many Charts.
+     * @example
+     * // Create many Charts
+     * const charts = await prisma.charts.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends chartsCreateManyArgs>(args?: SelectSubset<T, chartsCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Charts and returns the data saved in the database.
+     * @param {chartsCreateManyAndReturnArgs} args - Arguments to create many Charts.
+     * @example
+     * // Create many Charts
+     * const charts = await prisma.charts.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Charts and only return the `id`
+     * const chartsWithIdOnly = await prisma.charts.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends chartsCreateManyAndReturnArgs>(args?: SelectSubset<T, chartsCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Charts.
+     * @param {chartsDeleteArgs} args - Arguments to delete one Charts.
+     * @example
+     * // Delete one Charts
+     * const Charts = await prisma.charts.delete({
+     *   where: {
+     *     // ... filter to delete one Charts
+     *   }
+     * })
+     * 
+     */
+    delete<T extends chartsDeleteArgs>(args: SelectSubset<T, chartsDeleteArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Charts.
+     * @param {chartsUpdateArgs} args - Arguments to update one Charts.
+     * @example
+     * // Update one Charts
+     * const charts = await prisma.charts.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends chartsUpdateArgs>(args: SelectSubset<T, chartsUpdateArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Charts.
+     * @param {chartsDeleteManyArgs} args - Arguments to filter Charts to delete.
+     * @example
+     * // Delete a few Charts
+     * const { count } = await prisma.charts.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends chartsDeleteManyArgs>(args?: SelectSubset<T, chartsDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Charts
+     * const charts = await prisma.charts.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends chartsUpdateManyArgs>(args: SelectSubset<T, chartsUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Charts and returns the data updated in the database.
+     * @param {chartsUpdateManyAndReturnArgs} args - Arguments to update many Charts.
+     * @example
+     * // Update many Charts
+     * const charts = await prisma.charts.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Charts and only return the `id`
+     * const chartsWithIdOnly = await prisma.charts.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends chartsUpdateManyAndReturnArgs>(args: SelectSubset<T, chartsUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Charts.
+     * @param {chartsUpsertArgs} args - Arguments to update or create a Charts.
+     * @example
+     * // Update or create a Charts
+     * const charts = await prisma.charts.upsert({
+     *   create: {
+     *     // ... data to create a Charts
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Charts we want to update
+     *   }
+     * })
+     */
+    upsert<T extends chartsUpsertArgs>(args: SelectSubset<T, chartsUpsertArgs<ExtArgs>>): Prisma__chartsClient<$Result.GetResult<Prisma.$chartsPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsCountArgs} args - Arguments to filter Charts to count.
+     * @example
+     * // Count the number of Charts
+     * const count = await prisma.charts.count({
+     *   where: {
+     *     // ... the filter for the Charts we want to count
+     *   }
+     * })
+    **/
+    count<T extends chartsCountArgs>(
+      args?: Subset<T, chartsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChartsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChartsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChartsAggregateArgs>(args: Subset<T, ChartsAggregateArgs>): Prisma.PrismaPromise<GetChartsAggregateType<T>>
+
+    /**
+     * Group by Charts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {chartsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends chartsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: chartsGroupByArgs['orderBy'] }
+        : { orderBy?: chartsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, chartsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChartsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the charts model
+   */
+  readonly fields: chartsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for charts.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__chartsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the charts model
+   */
+  interface chartsFieldRefs {
+    readonly id: FieldRef<"charts", 'Int'>
+    readonly created_at: FieldRef<"charts", 'DateTime'>
+    readonly date_from: FieldRef<"charts", 'DateTime'>
+    readonly date_until: FieldRef<"charts", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * charts findUnique
+   */
+  export type chartsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter, which charts to fetch.
+     */
+    where: chartsWhereUniqueInput
+  }
+
+  /**
+   * charts findUniqueOrThrow
+   */
+  export type chartsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter, which charts to fetch.
+     */
+    where: chartsWhereUniqueInput
+  }
+
+  /**
+   * charts findFirst
+   */
+  export type chartsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter, which charts to fetch.
+     */
+    where?: chartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of charts to fetch.
+     */
+    orderBy?: chartsOrderByWithRelationInput | chartsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for charts.
+     */
+    cursor?: chartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` charts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` charts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of charts.
+     */
+    distinct?: ChartsScalarFieldEnum | ChartsScalarFieldEnum[]
+  }
+
+  /**
+   * charts findFirstOrThrow
+   */
+  export type chartsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter, which charts to fetch.
+     */
+    where?: chartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of charts to fetch.
+     */
+    orderBy?: chartsOrderByWithRelationInput | chartsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for charts.
+     */
+    cursor?: chartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` charts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` charts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of charts.
+     */
+    distinct?: ChartsScalarFieldEnum | ChartsScalarFieldEnum[]
+  }
+
+  /**
+   * charts findMany
+   */
+  export type chartsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter, which charts to fetch.
+     */
+    where?: chartsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of charts to fetch.
+     */
+    orderBy?: chartsOrderByWithRelationInput | chartsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing charts.
+     */
+    cursor?: chartsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` charts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` charts.
+     */
+    skip?: number
+    distinct?: ChartsScalarFieldEnum | ChartsScalarFieldEnum[]
+  }
+
+  /**
+   * charts create
+   */
+  export type chartsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * The data needed to create a charts.
+     */
+    data: XOR<chartsCreateInput, chartsUncheckedCreateInput>
+  }
+
+  /**
+   * charts createMany
+   */
+  export type chartsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many charts.
+     */
+    data: chartsCreateManyInput | chartsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * charts createManyAndReturn
+   */
+  export type chartsCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * The data used to create many charts.
+     */
+    data: chartsCreateManyInput | chartsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * charts update
+   */
+  export type chartsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * The data needed to update a charts.
+     */
+    data: XOR<chartsUpdateInput, chartsUncheckedUpdateInput>
+    /**
+     * Choose, which charts to update.
+     */
+    where: chartsWhereUniqueInput
+  }
+
+  /**
+   * charts updateMany
+   */
+  export type chartsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update charts.
+     */
+    data: XOR<chartsUpdateManyMutationInput, chartsUncheckedUpdateManyInput>
+    /**
+     * Filter which charts to update
+     */
+    where?: chartsWhereInput
+    /**
+     * Limit how many charts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * charts updateManyAndReturn
+   */
+  export type chartsUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * The data used to update charts.
+     */
+    data: XOR<chartsUpdateManyMutationInput, chartsUncheckedUpdateManyInput>
+    /**
+     * Filter which charts to update
+     */
+    where?: chartsWhereInput
+    /**
+     * Limit how many charts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * charts upsert
+   */
+  export type chartsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * The filter to search for the charts to update in case it exists.
+     */
+    where: chartsWhereUniqueInput
+    /**
+     * In case the charts found by the `where` argument doesn't exist, create a new charts with this data.
+     */
+    create: XOR<chartsCreateInput, chartsUncheckedCreateInput>
+    /**
+     * In case the charts was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<chartsUpdateInput, chartsUncheckedUpdateInput>
+  }
+
+  /**
+   * charts delete
+   */
+  export type chartsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+    /**
+     * Filter which charts to delete.
+     */
+    where: chartsWhereUniqueInput
+  }
+
+  /**
+   * charts deleteMany
+   */
+  export type chartsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which charts to delete
+     */
+    where?: chartsWhereInput
+    /**
+     * Limit how many charts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * charts without action
+   */
+  export type chartsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the charts
+     */
+    select?: chartsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the charts
+     */
+    omit?: chartsOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6008,7 +7128,8 @@ export namespace Prisma {
     label: 'label',
     description: 'description',
     comment: 'comment',
-    parent: 'parent'
+    parent: 'parent',
+    path: 'path'
   };
 
   export type ItemsScalarFieldEnum = (typeof ItemsScalarFieldEnum)[keyof typeof ItemsScalarFieldEnum]
@@ -6059,6 +7180,16 @@ export namespace Prisma {
   };
 
   export type ValuesScalarFieldEnum = (typeof ValuesScalarFieldEnum)[keyof typeof ValuesScalarFieldEnum]
+
+
+  export const ChartsScalarFieldEnum: {
+    id: 'id',
+    created_at: 'created_at',
+    date_from: 'date_from',
+    date_until: 'date_until'
+  };
+
+  export type ChartsScalarFieldEnum = (typeof ChartsScalarFieldEnum)[keyof typeof ChartsScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -6180,6 +7311,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
     parent?: IntNullableFilter<"items"> | number | null
+    path?: StringNullableFilter<"items"> | string | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     other_items?: ItemsListRelationFilter
     modifiers?: ModifiersListRelationFilter
@@ -6193,6 +7325,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     comment?: SortOrderInput | SortOrder
     parent?: SortOrderInput | SortOrder
+    path?: SortOrderInput | SortOrder
     items?: itemsOrderByWithRelationInput
     other_items?: itemsOrderByRelationAggregateInput
     modifiers?: modifiersOrderByRelationAggregateInput
@@ -6209,6 +7342,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
     parent?: IntNullableFilter<"items"> | number | null
+    path?: StringNullableFilter<"items"> | string | null
     items?: XOR<ItemsNullableScalarRelationFilter, itemsWhereInput> | null
     other_items?: ItemsListRelationFilter
     modifiers?: ModifiersListRelationFilter
@@ -6222,6 +7356,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     comment?: SortOrderInput | SortOrder
     parent?: SortOrderInput | SortOrder
+    path?: SortOrderInput | SortOrder
     _count?: itemsCountOrderByAggregateInput
     _avg?: itemsAvgOrderByAggregateInput
     _max?: itemsMaxOrderByAggregateInput
@@ -6239,6 +7374,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"items"> | string | null
     comment?: StringNullableWithAggregatesFilter<"items"> | string | null
     parent?: IntNullableWithAggregatesFilter<"items"> | number | null
+    path?: StringNullableWithAggregatesFilter<"items"> | string | null
   }
 
   export type modifiersWhereInput = {
@@ -6486,11 +7622,62 @@ export namespace Prisma {
     plan_description?: StringNullableWithAggregatesFilter<"values"> | string | null
   }
 
+  export type chartsWhereInput = {
+    AND?: chartsWhereInput | chartsWhereInput[]
+    OR?: chartsWhereInput[]
+    NOT?: chartsWhereInput | chartsWhereInput[]
+    id?: IntFilter<"charts"> | number
+    created_at?: DateTimeFilter<"charts"> | Date | string
+    date_from?: DateTimeFilter<"charts"> | Date | string
+    date_until?: DateTimeFilter<"charts"> | Date | string
+  }
+
+  export type chartsOrderByWithRelationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    date_from?: SortOrder
+    date_until?: SortOrder
+  }
+
+  export type chartsWhereUniqueInput = Prisma.AtLeast<{
+    id_date_from_date_until?: chartsIdDate_fromDate_untilCompoundUniqueInput
+    AND?: chartsWhereInput | chartsWhereInput[]
+    OR?: chartsWhereInput[]
+    NOT?: chartsWhereInput | chartsWhereInput[]
+    id?: IntFilter<"charts"> | number
+    created_at?: DateTimeFilter<"charts"> | Date | string
+    date_from?: DateTimeFilter<"charts"> | Date | string
+    date_until?: DateTimeFilter<"charts"> | Date | string
+  }, "id_date_from_date_until">
+
+  export type chartsOrderByWithAggregationInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    date_from?: SortOrder
+    date_until?: SortOrder
+    _count?: chartsCountOrderByAggregateInput
+    _avg?: chartsAvgOrderByAggregateInput
+    _max?: chartsMaxOrderByAggregateInput
+    _min?: chartsMinOrderByAggregateInput
+    _sum?: chartsSumOrderByAggregateInput
+  }
+
+  export type chartsScalarWhereWithAggregatesInput = {
+    AND?: chartsScalarWhereWithAggregatesInput | chartsScalarWhereWithAggregatesInput[]
+    OR?: chartsScalarWhereWithAggregatesInput[]
+    NOT?: chartsScalarWhereWithAggregatesInput | chartsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"charts"> | number
+    created_at?: DateTimeWithAggregatesFilter<"charts"> | Date | string
+    date_from?: DateTimeWithAggregatesFilter<"charts"> | Date | string
+    date_until?: DateTimeWithAggregatesFilter<"charts"> | Date | string
+  }
+
   export type itemsCreateInput = {
     created_at?: Date | string
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     other_items?: itemsCreateNestedManyWithoutItemsInput
     modifiers?: modifiersCreateNestedManyWithoutItemsInput
@@ -6504,6 +7691,7 @@ export namespace Prisma {
     description?: string | null
     comment?: string | null
     parent?: number | null
+    path?: string | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
     modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
@@ -6514,6 +7702,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     other_items?: itemsUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUpdateManyWithoutItemsNestedInput
@@ -6527,6 +7716,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     parent?: NullableIntFieldUpdateOperationsInput | number | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
@@ -6539,6 +7729,7 @@ export namespace Prisma {
     description?: string | null
     comment?: string | null
     parent?: number | null
+    path?: string | null
   }
 
   export type itemsUpdateManyMutationInput = {
@@ -6546,6 +7737,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type itemsUncheckedUpdateManyInput = {
@@ -6555,6 +7747,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     parent?: NullableIntFieldUpdateOperationsInput | number | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type modifiersCreateInput = {
@@ -6818,6 +8011,55 @@ export namespace Prisma {
     plan_description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type chartsCreateInput = {
+    id?: number
+    created_at?: Date | string
+    date_from: Date | string
+    date_until: Date | string
+  }
+
+  export type chartsUncheckedCreateInput = {
+    id?: number
+    created_at?: Date | string
+    date_from: Date | string
+    date_until: Date | string
+  }
+
+  export type chartsUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_from?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_until?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type chartsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_from?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_until?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type chartsCreateManyInput = {
+    id?: number
+    created_at?: Date | string
+    date_from: Date | string
+    date_until: Date | string
+  }
+
+  export type chartsUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_from?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_until?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type chartsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_from?: DateTimeFieldUpdateOperationsInput | Date | string
+    date_until?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -6913,6 +8155,7 @@ export namespace Prisma {
     description?: SortOrder
     comment?: SortOrder
     parent?: SortOrder
+    path?: SortOrder
   }
 
   export type itemsAvgOrderByAggregateInput = {
@@ -6927,6 +8170,7 @@ export namespace Prisma {
     description?: SortOrder
     comment?: SortOrder
     parent?: SortOrder
+    path?: SortOrder
   }
 
   export type itemsMinOrderByAggregateInput = {
@@ -6936,6 +8180,7 @@ export namespace Prisma {
     description?: SortOrder
     comment?: SortOrder
     parent?: SortOrder
+    path?: SortOrder
   }
 
   export type itemsSumOrderByAggregateInput = {
@@ -7272,6 +8517,41 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type chartsIdDate_fromDate_untilCompoundUniqueInput = {
+    id: number
+    date_from: Date | string
+    date_until: Date | string
+  }
+
+  export type chartsCountOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    date_from?: SortOrder
+    date_until?: SortOrder
+  }
+
+  export type chartsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type chartsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    date_from?: SortOrder
+    date_until?: SortOrder
+  }
+
+  export type chartsMinOrderByAggregateInput = {
+    id?: SortOrder
+    created_at?: SortOrder
+    date_from?: SortOrder
+    date_until?: SortOrder
+  }
+
+  export type chartsSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type itemsCreateNestedOneWithoutOther_itemsInput = {
@@ -7767,6 +9047,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     modifiers?: modifiersCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
@@ -7779,6 +9060,7 @@ export namespace Prisma {
     description?: string | null
     comment?: string | null
     parent?: number | null
+    path?: string | null
     modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
   }
@@ -7793,6 +9075,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     other_items?: itemsCreateNestedManyWithoutItemsInput
     modifiers?: modifiersCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
@@ -7804,6 +9087,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
     modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
@@ -7891,6 +9175,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     modifiers?: modifiersUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
@@ -7903,6 +9188,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     parent?: NullableIntFieldUpdateOperationsInput | number | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
   }
@@ -7933,6 +9219,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"items"> | string | null
     comment?: StringNullableFilter<"items"> | string | null
     parent?: IntNullableFilter<"items"> | number | null
+    path?: StringNullableFilter<"items"> | string | null
   }
 
   export type modifiersUpsertWithWhereUniqueWithoutItemsInput = {
@@ -7998,6 +9285,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     other_items?: itemsCreateNestedManyWithoutItemsInput
     titles?: titlesCreateNestedManyWithoutItemsInput
@@ -8010,6 +9298,7 @@ export namespace Prisma {
     description?: string | null
     comment?: string | null
     parent?: number | null
+    path?: string | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
     titles?: titlesUncheckedCreateNestedManyWithoutItemsInput
   }
@@ -8035,6 +9324,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     other_items?: itemsUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
@@ -8047,6 +9337,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     parent?: NullableIntFieldUpdateOperationsInput | number | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
   }
@@ -8056,6 +9347,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
     items?: itemsCreateNestedOneWithoutOther_itemsInput
     other_items?: itemsCreateNestedManyWithoutItemsInput
     modifiers?: modifiersCreateNestedManyWithoutItemsInput
@@ -8068,6 +9360,7 @@ export namespace Prisma {
     description?: string | null
     comment?: string | null
     parent?: number | null
+    path?: string | null
     other_items?: itemsUncheckedCreateNestedManyWithoutItemsInput
     modifiers?: modifiersUncheckedCreateNestedManyWithoutItemsInput
   }
@@ -8137,6 +9430,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     items?: itemsUpdateOneWithoutOther_itemsNestedInput
     other_items?: itemsUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUpdateManyWithoutItemsNestedInput
@@ -8149,6 +9443,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     parent?: NullableIntFieldUpdateOperationsInput | number | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
   }
@@ -8246,6 +9541,7 @@ export namespace Prisma {
     label?: string | null
     description?: string | null
     comment?: string | null
+    path?: string | null
   }
 
   export type modifiersCreateManyItemsInput = {
@@ -8271,6 +9567,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUpdateManyWithoutItemsNestedInput
     titles?: titlesUpdateManyWithoutItemsNestedInput
@@ -8282,6 +9579,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
     other_items?: itemsUncheckedUpdateManyWithoutItemsNestedInput
     modifiers?: modifiersUncheckedUpdateManyWithoutItemsNestedInput
     titles?: titlesUncheckedUpdateManyWithoutItemsNestedInput
@@ -8293,6 +9591,7 @@ export namespace Prisma {
     label?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+    path?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type modifiersUpdateWithoutItemsInput = {

@@ -1,20 +1,23 @@
 class ItemUtils {
-    static getParentIds(itemId: number): number[] {
-        const itemIdString = itemId.toString();
-        const parentDigits = itemIdString.length;
-        const parentIds: number[] = [];
-
-        //entire budget is parent of all items
-        parentIds.push(0);
-
-        for (let i = 2; i <= parentDigits ; i+=2) {
-            const parentIdString = itemIdString.substring(0, i);
-            if (parentIdString.length > 0) {
-                parentIds.push(Number(parentIdString));
+    static getIds(path: string): number[] {
+        const segments = path.split('.').filter(segment => segment.length > 0);
+        var pathIds: number[] = [];
+        var currentItemId: string = "";
+        for (const segment of segments) {
+            if (isNaN(Number(segment))) {
+                throw new Error(`Invalid path segment: ${segment}`);
             }
+            currentItemId = currentItemId + segment;
+            pathIds.push(Number(currentItemId));
         }
-        return parentIds;
+        return pathIds;
+    }
+
+    static getId(path: string): number {
+        const id = path.replace(/\./g, '');
+        return Number(id);
     }
 }
+
 
 export default ItemUtils;

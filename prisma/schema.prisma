@@ -13,12 +13,13 @@ datasource db {
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model items {
-  id          Int         @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   created_at  DateTime    @default(now()) @db.Timestamptz(6)
   label       String?
   description String?
   comment     String?
   parent      Int?
+  path        String?
   items       items?      @relation("itemsToitems", fields: [parent], references: [id])
   other_items items[]     @relation("itemsToitems")
   modifiers   modifiers[]
@@ -73,4 +74,14 @@ model values {
   titles                      titles   @relation(fields: [title], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@id([date, title])
+}
+
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model charts {
+  id         Int      @default(autoincrement())
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  date_from  DateTime @db.Date
+  date_until DateTime @db.Date
+
+  @@id([id, date_from, date_until])
 }

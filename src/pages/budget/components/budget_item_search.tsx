@@ -29,7 +29,7 @@ return (
                       key={item.id}
                       value={item.description ?? item.label ?? ""}
                       onSelect={() => {
-                        router.push(`/item/${item.id}`)
+                        router.push(`/item/${item.path}`)
                       }}
                       className="cursor-pointer py-3"
                     >

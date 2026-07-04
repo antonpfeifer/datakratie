@@ -127,7 +127,8 @@ exports.Prisma.ItemsScalarFieldEnum = {
   label: 'label',
   description: 'description',
   comment: 'comment',
-  parent: 'parent'
+  parent: 'parent',
+  path: 'path'
 };
 
 exports.Prisma.ModifiersScalarFieldEnum = {
@@ -168,6 +169,13 @@ exports.Prisma.ValuesScalarFieldEnum = {
   plan_description: 'plan_description'
 };
 
+exports.Prisma.ChartsScalarFieldEnum = {
+  id: 'id',
+  created_at: 'created_at',
+  date_from: 'date_from',
+  date_until: 'date_until'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -188,7 +196,8 @@ exports.Prisma.ModelName = {
   items: 'items',
   modifiers: 'modifiers',
   titles: 'titles',
-  values: 'values'
+  values: 'values',
+  charts: 'charts'
 };
 
 /**
