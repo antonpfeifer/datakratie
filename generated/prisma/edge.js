@@ -173,7 +173,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/anton/Documents/GitHub/datakratie/generated/prisma",
+      "value": "/mnt/c/Users/johan/Desktop/datakratie/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -182,14 +182,14 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [
       "typedSql"
     ],
-    "sourceFilePath": "/Users/anton/Documents/GitHub/datakratie/prisma/schema.prisma",
+    "sourceFilePath": "/mnt/c/Users/johan/Desktop/datakratie/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
