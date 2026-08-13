@@ -1,4 +1,5 @@
 import { PageSidebarNav } from "~/components/page_sidebar_nav";
+import { ModifierSearch } from "~/pages/history/components/modifier_search";
 import { TitlesSearch } from "~/pages/history/components/titles_search";
 import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
 import { useState } from "~/hooks/useState";
@@ -15,6 +16,7 @@ export default function HistoryPage() {
           <PageSidebarNav />
           <SidebarInset className="flex flex-col gap-4">
             <TitlesSearch />
+            <ModifierSearch />
             <HistoryChartCard item={item} />
           </SidebarInset>
         </div>

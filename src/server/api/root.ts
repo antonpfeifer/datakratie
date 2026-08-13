@@ -1,6 +1,7 @@
 import { titlesRouter } from "~/server/api/routers/title";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { itemsRouter } from "./routers/items";
+import { modifiersRouter } from "./routers/modifiers";
 import { valuesRouter } from "./routers/values";
 import { yearsRouter } from "./routers/years";
 
@@ -12,6 +13,7 @@ import { yearsRouter } from "./routers/years";
 export const appRouter = createTRPCRouter({
   titles: titlesRouter,
   items: itemsRouter,
+  modifiers: modifiersRouter,
   values: valuesRouter,
   years: yearsRouter
 });

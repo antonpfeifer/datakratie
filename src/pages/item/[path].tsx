@@ -2,6 +2,7 @@ import * as React from "react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { HistoryChartCard } from "~/pages/history/components/history_chart_card";
+import { ModifierSearch } from "~/pages/history/components/modifier_search";
 import { BudgetPieChart } from "~/pages/budget/components/budget_piechart";
 import { BudgetItemBreadcrumb } from "../budget/components/budget_item_breadcrumb";
 import { GlobalSearch } from "~/components/global_search";
@@ -49,6 +50,7 @@ export default function ItemPage() {
           <>
             <BudgetItemBreadcrumb currentItemPath={itemPath} />
             <BudgetPieChart itemId={itemId} />
+            <ModifierSearch />
             <HistoryChartCard item={item} />
           </>
         ) : (
