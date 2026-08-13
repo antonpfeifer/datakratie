@@ -173,7 +173,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/mnt/c/Users/johan/Desktop/datakratie/generated/prisma",
+      "value": "/home/johan/datakratie/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -189,7 +189,7 @@ const config = {
     "previewFeatures": [
       "typedSql"
     ],
-    "sourceFilePath": "/mnt/c/Users/johan/Desktop/datakratie/prisma/schema.prisma",
+    "sourceFilePath": "/home/johan/datakratie/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
