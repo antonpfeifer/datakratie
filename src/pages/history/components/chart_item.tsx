@@ -29,3 +29,5 @@
 //     </div>
 //   )
 // }
+
+export default function ComponentAsPage() { return null; }

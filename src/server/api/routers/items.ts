@@ -1,65 +1,100 @@
 import { Prisma } from "generated/prisma";
 import { z } from "zod";
-import type { Item } from "~/hooks/useState";
+import ItemUtils from "~/lib/item_utils";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export type ItemWithValue = {id: number, value: number, label: string};
+export type ItemWithValue = {
+  path: string;
+  value: number;
+  label: string;
+  description: string;
+};
 
 export const itemsRouter = createTRPCRouter({
-    search: publicProcedure
-        .input(z.object({query: z.string()}))
+  parents: publicProcedure
+    .input(z.object({ path: z.string() }))
     .query(async ({ ctx, input }) => {
-        const normalizedQuery = input.query.trim();
-        const data = await ctx.db.items.findMany({
-            where: normalizedQuery.length === 0
-                ? { description: { not: null } }
-                : {
-                    OR: [
-                        { label: { contains: normalizedQuery, mode: "insensitive" } },
-                        { description: { contains: normalizedQuery, mode: "insensitive" } },
-                    ],
-                },
-            select: {
-                id: true,
-                description: true,
-                label: true
-            },
-            orderBy: {
-                description: "asc",
-            },
-            take: 100,
-        });
+      const parentIds = ItemUtils.getIds(input.path);
+      console.log("Parent IDs: " + parentIds.toString());
+      const data = await ctx.db.items.findMany({
+        where: {
+          id: { in: parentIds },
+        },
+      });
 
-        return data;
+      return data
+        .sort((a, b) => a.id - b.id)
+        .map((row) => ({
+          path: row.path,
+          label: row.label ?? `Item ${row.id}`,
+        }));
     }),
-    byId: publicProcedure
-        .input(z.object({ item: z.number().int().nonnegative() }))
-        .query(async ({ ctx, input }) => {
-            const row = await ctx.db.items.findUnique({
-                where: {
-                    id: BigInt(input.item),
-                },
-                select: {
-                    id: true,
-                    label: true,
-                },
-            });
 
-            if (!row) {
-                return null;
-            }
+  search: publicProcedure
+    .input(z.object({ query: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const normalizedQuery = input.query.trim();
+      const data = await ctx.db.items.findMany({
+        where:
+          normalizedQuery.length === 0
+            ? { description: { not: null } }
+            : {
+                OR: [
+                  { label: { contains: normalizedQuery, mode: "insensitive" } },
+                  {
+                    description: {
+                      contains: normalizedQuery,
+                      mode: "insensitive",
+                    },
+                  },
+                ],
+              },
+        select: {
+          id: true,
+          description: true,
+          label: true,
+          path: true,
+        },
+        orderBy: {
+          description: "asc",
+        },
+        take: 100,
+      });
 
-            return {
-                id: Number(row.id),
-                label: row.label ?? `Item ${input.item}`,
-            };
-        }),
+      return data;
+    }),
+  byId: publicProcedure
+    .input(z.object({ id: z.number().int().nonnegative() }))
+    .query(async ({ ctx, input }) => {
+      const row = await ctx.db.items.findUnique({
+        where: {
+          id: input.id,
+        },
+        select: {
+          id: true,
+          label: true,
+          parent: true,
+          path: true,
+        },
+      });
 
-    childrenWithValues: publicProcedure
-        .input(z.object({ item: z.number().int().nonnegative(), date: z.date() }))
-        .query(async ({ ctx, input }) => {
-            const data = await ctx.db.$queryRaw(Prisma.sql`
+      if (!row) {
+        return null;
+      }
+
+      return {
+        id: Number(row.id),
+        path: row.path,
+        label: row.label ?? `Item ${input.id}`,
+        parent: row.parent ? Number(row.parent) : null,
+      };
+    }),
+
+  childrenWithValues: publicProcedure
+    .input(z.object({ item: z.number().int().nonnegative(), date: z.date() }))
+    .query(async ({ ctx, input }) => {
+      const data = await ctx.db.$queryRaw(Prisma.sql`
                 WITH RECURSIVE item_tree AS (
                 SELECT i.id AS node_id, i.id AS direct_child_id
                 FROM items i
@@ -84,19 +119,27 @@ export const itemsRouter = createTRPCRouter({
                 )
 
                 SELECT
-                dc.id AS direct_child_id, dc.label, dc.description,
+                dc.id AS direct_child_id, dc.path, dc.label, dc.description,
                 COALESCE(s.recursive_should_sum, 0) AS recursive_should_sum
                 FROM items dc
                 LEFT JOIN sum_by_child s ON s.direct_child_id = dc.id
                 WHERE dc.parent = ${input.item}
                 ORDER BY dc.id;`);
 
-            const rows = (data as Array<{ direct_child_id: bigint; recursive_should_sum: bigint | null, label: string }>) ?? [];
+      const rows =
+        (data as Array<{
+          direct_child_id: number;
+          path: string | null;
+          recursive_should_sum: bigint | null;
+          label: string | null;
+          description: string | null;
+        }>) ?? [];
 
-            return rows.map<ItemWithValue>((row) => ({
-                id: Number(row.direct_child_id),
-                label: row.label,
-                value: Number(row.recursive_should_sum ?? 0n),
-            }));
-        }),
+      return rows.map<ItemWithValue>((row) => ({
+        path: row.path ?? String(row.direct_child_id),
+        label: row.label ?? `Item ${row.direct_child_id}`,
+        value: Number(row.recursive_should_sum ?? 0n),
+        description: row.description ?? "",
+      }));
+    }),
 });

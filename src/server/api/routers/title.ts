@@ -47,7 +47,7 @@ export const titlesRouter = createTRPCRouter({
       .filter((row) => row.description !== null && row.description.length > 0)
       .map((row) => ({
         id: Number(row.id),
-        description: row.description as string,
+        description: row.description!,
         itemLabel: row.items?.label ?? null,
       }))
       .filter((row) => {
