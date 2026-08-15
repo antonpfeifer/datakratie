@@ -4,27 +4,17 @@ import * as React from "react"
 import { Button } from "../../../components/ui/button"
 import { api } from "~/utils/api"
 import { useState } from "~/hooks/useState"
+import { ItemModifierSearch } from "./item_modifier_search"
 
 export function ModifierSearch() {
   const modifier = useState((controller) => controller.modifier)
   const setModifier = useState((controller) => controller.setModifier)
-  const [query, setQuery] = React.useState("")
-  const searchQuery = api.items.search.useQuery(
-    { query },
-    { enabled: true }
-  )
 
   return (
     <div className="flex flex-col gap-3">
+      
+      <ItemModifierSearch modifier= {modifier} setModifier={setModifier}/>
       <p className="text-sm font-medium text-white">Modifier</p>
-      {!modifier ? (
-        <input
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Titel oder Posten suchen..."
-          className="border-border bg-background text-foreground placeholder:text-muted-foreground h-9 rounded-md border px-3 text-sm outline-none"
-        />
-      ) : null}
       <div className="flex flex-wrap gap-2">
         {modifier ? (
           <>
@@ -50,39 +40,7 @@ export function ModifierSearch() {
               x
             </Button>
           </>
-        ) : searchQuery.isLoading ? (
-          <p className="text-muted-foreground text-sm">Lade Modifier...</p>
-        ) : searchQuery.error ? (
-          <p className="text-sm text-red-300">Modifier konnten nicht geladen werden.</p>
-        ) : searchQuery.data?.length ? (
-          searchQuery.data.map((entry) => (
-            <Button
-              key={entry.id}
-              variant="outline"
-              className="h-auto max-w-full justify-start rounded-full px-4 py-2 text-left"
-              onClick={() =>
-                setModifier({
-                  id: Number(entry.id),
-                  title: entry.label ?? `Item ${entry.id}`,
-                  description: entry.description ?? "",
-                  function: "",
-                  isRecursive: true,
-                  startIndex: 0,
-                  itemLabel: entry.label ?? null,
-                })
-              }
-            >
-              <span className="flex min-w-0 flex-col items-start gap-0.5">
-                <span className="truncate text-sm font-medium">{entry.label ?? `Item ${entry.id}`}</span>
-                <span className="text-muted-foreground truncate text-xs">
-                  {entry.description ?? ""}
-                </span>
-              </span>
-            </Button>
-          ))
-        ) : (
-          <p className="text-muted-foreground text-sm">Keine Modifier gefunden.</p>
-        )}
+        ): null}
       </div>
     </div>
   )
